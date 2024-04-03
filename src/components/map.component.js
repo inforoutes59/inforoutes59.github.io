@@ -380,7 +380,7 @@ function MapComponent() {
                                         ]}
                                         icon={L.divIcon({
                                             className: 'custom-icon',
-                                            html: `<img class="icone" src='./images/AK14.svg' alt='Icône de restriction' />`,
+                                            html: `<object type="image/svg+xml" data="./images/AK14.svg" class="icone"></object>`,
                                         })}
                                         eventHandlers={{
                                             click: (e) => {
@@ -420,7 +420,7 @@ function MapComponent() {
                                         ]}
                                         icon={L.divIcon({
                                             className: 'custom-icon',
-                                            html: `<img class="icone" src='./images/B1.svg' alt='Icône d\'interruption' />`,
+                                            html: `<object type="image/svg+xml" data="./images/B1.svg" class="icone"></object>`,
                                         })}
                                         eventHandlers={{
                                             click: (e) => {
