@@ -380,7 +380,7 @@ function MapComponent() {
                                         ]}
                                         icon={L.divIcon({
                                             className: 'custom-icon',
-                                            html: `<img src="./images/AK14.png"/>`,
+                                            html: `<img src="./images/AK14.png" class="icone"/>`,
                                         })}
                                         eventHandlers={{
                                             click: (e) => {
@@ -420,7 +420,7 @@ function MapComponent() {
                                         ]}
                                         icon={L.divIcon({
                                             className: 'custom-icon',
-                                            html: `<img src="./images/B1.png"/>`,
+                                            html: `<img src="./images/B1.png" class="icone"/>`,
                                         })}
                                         eventHandlers={{
                                             click: (e) => {
