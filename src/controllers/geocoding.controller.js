@@ -8,7 +8,7 @@ export async function getInterruptions(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -21,7 +21,7 @@ export async function getRestrictions(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -49,7 +49,7 @@ export async function getTelecom(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -62,7 +62,7 @@ export async function getElec(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -75,7 +75,7 @@ export async function getEau(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON:', error);
@@ -88,7 +88,7 @@ export async function getAssainissement(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -101,7 +101,7 @@ export async function getGaz(){
     return axios.get(apiUrl)
         .then((response) => {
             console.log(response)
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
