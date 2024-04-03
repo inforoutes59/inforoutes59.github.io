@@ -1,7 +1,7 @@
 import React from 'react';
 import { TileLayer, MapContainer, Marker, Popup } from 'react-leaflet';
 import { GeoJSON } from 'react-leaflet/GeoJSON'
-import geojson from './departement-59-nord.json';
+import geojson from '../departement-59-nord.json';
 import L from 'leaflet';
 import rdData from '../rd.json';
 import { useEffect, useState, useRef } from 'react';
