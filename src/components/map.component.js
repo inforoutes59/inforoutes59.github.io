@@ -94,11 +94,11 @@ function MapComponent() {
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
             });
-        // if(navigator.geolocation){
-        //     navigator.geolocation.getCurrentPosition(success, error);
-        // } else {
-        //     console.log("Geolocation is not supported by this browser");
-        // }
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            console.log("Geolocation is not supported by this browser");
+        }
     }, []);
 
     const handleSearch = (e) => {

@@ -17,12 +17,12 @@
 }
 
 .filter-logo{
-  width: min(20vw,10vh);
+  width: min(15vw,7vh);
   height: 5%;
 }
 
 .filter > i{
-  font-size: min(20vw,10vh);
+  font-size: min(15vw,7vh);
 }
 
 .filter:hover{
