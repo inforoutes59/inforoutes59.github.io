@@ -78,7 +78,7 @@ export async function getEau(){
             return JSON.parse(response.data);
         })
         .catch((error) => {
-            console.error('Erreur lors de la récupération des données GeoJSON :', error);
+            console.error('Erreur lors de la récupération des données GeoJSON:', error);
         });
 }
 
