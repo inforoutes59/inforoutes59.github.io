@@ -20,6 +20,7 @@ export async function getRestrictions(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
+            console.log(response)
             return JSON.parse(response.data);
         })
         .catch((error) => {
@@ -47,6 +48,7 @@ export async function getTelecom(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
+            console.log(response)
             return JSON.parse(response.data);
         })
         .catch((error) => {
@@ -59,6 +61,7 @@ export async function getElec(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
+            console.log(response)
             return JSON.parse(response.data);
         })
         .catch((error) => {
@@ -71,6 +74,7 @@ export async function getEau(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
+            console.log(response)
             return JSON.parse(response.data);
         })
         .catch((error) => {
@@ -83,6 +87,7 @@ export async function getAssainissement(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
+            console.log(response)
             return JSON.parse(response.data);
         })
         .catch((error) => {
@@ -95,6 +100,7 @@ export async function getGaz(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
+            console.log(response)
             return JSON.parse(response.data);
         })
         .catch((error) => {
