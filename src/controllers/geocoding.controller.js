@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = process.env.API_KEY
+const apiKey = 'AIzaSyBpbWfaapgICG-f9pbWkxUtaN7FecRsl8A'
 
 export async function getInterruptions(){
     const fileId = '1hK49eyZVCTSqNbxMEUBvje9LUYUaKMRc'
