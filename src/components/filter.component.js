@@ -14,7 +14,7 @@ function FilterComponent({ onFilterChange, isOpen }) {
             document.querySelector(`#${value}-filter`).classList.remove("unactive-filter");
         }
         setFilters(newFilters);
-        onFilterChange(newFilters);
+        setTimeout(()=>{onFilterChange(newFilters)},1000);
     };
 
     if(isOpen) {
