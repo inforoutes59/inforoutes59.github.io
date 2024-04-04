@@ -30,11 +30,11 @@ function MapComponent() {
     let highlightedDeviationLayer = null;
     const [restrictionShown, setRestrictionShown] = useState(true);
     const [interruptionShown, setInterruptionShown] = useState(true);
-    const [telecomShown, setTelecomShown] = useState(false);
-    const [elecShown, setElecShown] = useState(false);
-    const [eauShown, setEauShown] = useState(false);
-    const [gazShown, setGazShown] = useState(false);
-    const [assainissementShown, setAssainissementShown] = useState(false);
+    const [telecomShown, setTelecomShown] = useState(true);
+    const [elecShown, setElecShown] = useState(true);
+    const [eauShown, setEauShown] = useState(true);
+    const [gazShown, setGazShown] = useState(true);
+    const [assainissementShown, setAssainissementShown] = useState(true);
     const [cityCoords, setCityCoords] = useState({});
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-'); // Sépare les parties de la date

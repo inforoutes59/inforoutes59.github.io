@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function FilterComponent({ onFilterChange, isOpen }) {
-    const [filters, setFilters] = useState({ "Restriction": "restriction", "Interruption": "interruption", "Télécommunications": "", "Electricité": "", "Eau potable": "", "Gaz": "", "assainissement": "" });
+    const [filters, setFilters] = useState({ "Restriction": "restriction", "Interruption": "interruption", "Télécommunications": "telecom", "Electricité": "elec", "Eau potable": "eau", "Gaz": "gaz", "assainissement": "assainissement" });
 
     const handleFilterChange = (filterType, value) => {
         const newFilters = { ...filters };
@@ -14,7 +14,7 @@ function FilterComponent({ onFilterChange, isOpen }) {
             document.querySelector(`#${value}-filter`).classList.remove("unactive-filter");
         }
         setFilters(newFilters);
-        setTimeout(()=>{onFilterChange(newFilters)},1000);
+        onFilterChange(newFilters);
     };
 
     if(isOpen) {
