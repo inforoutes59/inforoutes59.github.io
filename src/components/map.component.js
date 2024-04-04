@@ -358,7 +358,8 @@ function MapComponent() {
                                 data={restrictions}
                                 style={{
                                         color: "orange",
-                                        weight: 3}
+                                        weight: 3,
+                                        zIndex: 1000}
                                     }
                                 onEachFeature={(feature, layer) => {
                                     layer.on({
