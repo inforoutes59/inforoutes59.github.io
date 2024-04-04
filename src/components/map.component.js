@@ -19,6 +19,7 @@ function MapComponent() {
     const [eau, setEau] = useState({});
     const [gaz, setGaz] = useState({});
     const [assainissement, setAssainissement] = useState({});
+    const [rerenderRestr, setRerenderRestr] = useState(0);
     const [rerender, setRerender] = useState(0);
     const [rerenderAtp, setRerenderAtpData] = useState(0);
     const mapRef = useRef(null);
@@ -252,7 +253,7 @@ function MapComponent() {
 
         if (filters["Restriction"] === "restriction") {
             setRestrictionShown(true);
-            setRerender(rerender + 1);
+            setRerenderRestr(rerenderRestr + 1);
         } else {
             setRestrictionShown(false);
         }
@@ -353,7 +354,7 @@ function MapComponent() {
                         </Marker>)}
                         {restrictionShown && restrictions && restrictions[0] && (
                             <GeoJSON
-                                key={rerender}
+                                key={rerenderRestr}
                                 data={restrictions}
                                 style={{
                                         color: "orange",
