@@ -137,19 +137,19 @@ function MapComponent() {
             if (feature.properties.gdp_arretes_de_circulation_nature) {
                 popupContent += `<strong>Nature:</strong> ${feature.properties.gdp_arretes_de_circulation_nature}<br>`;
             }
+            var date = ``;
             if (feature.properties.gdp_arretes_de_circulation_date_de_debut && feature.properties.gdp_arretes_de_circulation_date_de_fin) {
-                var date = `<strong>Date:</strong> Du ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)} au ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_fin)}<br>`;
+                var date = `dans la période du ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)} au ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_fin)}`;
                 if (feature.properties.gdp_arretes_de_circulation_nombre_de_jours === 1) {
-                    date = `<strong>Date:</strong> Le ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)}<br>`;
+                    date = `le ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)}`;
                 }
-                popupContent += date
             }
             if (feature.properties.gdp_arretes_de_circulation_nombre_de_jours) {
                 var jour = "jour";
                 if (feature.properties.gdp_arretes_de_circulation_nombre_de_jours > 1) {
                     jour = "jours"
                 }
-                popupContent += `<strong>Durée:</strong> ${feature.properties.gdp_arretes_de_circulation_nombre_de_jours} ${jour}<br>`;
+                popupContent += `<strong>Intervention prévue :</strong> ${feature.properties.gdp_arretes_de_circulation_nombre_de_jours} ${jour} ${date}<br>`;
             }
             if (feature.properties.en_cours_interdiction && feature.properties.en_cours_interdiction[0] !== null) {
                 let interdictions = feature.properties.en_cours_interdiction[0].split("\n").map((str) => {
