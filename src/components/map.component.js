@@ -95,7 +95,7 @@ function MapComponent() {
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
             });
-        if(navigator.geolocation){
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(success, error);
         } else {
             console.log("Geolocation is not supported by this browser");
@@ -352,55 +352,14 @@ function MapComponent() {
                         >
                             <Popup>Vous êtes ici</Popup>
                         </Marker>)}
-                        {restrictionShown && restrictions && restrictions[0] && (
-                            <GeoJSON
-                                key={rerenderRestr}
-                                data={restrictions}
-                                style={{
-                                        color: "orange",
-                                        weight: 3,
-                                        zIndex: 1000}
-                                    }
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleFeatureClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
-                        )}
-                        {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
-                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                            if (feature.geometry.coordinates[0][lengthCoord]) {
-                                return (
-                                    <Marker
-                                        key={index}
-                                        position={[
-                                            feature.geometry.coordinates[0][lengthCoord][1],
-                                            feature.geometry.coordinates[0][lengthCoord][0],
-                                        ]}
-                                        icon={L.divIcon({
-                                            className: 'custom-icon',
-                                            html: `<img src="./images/AK14.png" class="icone"/>`,
-                                        })}
-                                        eventHandlers={{
-                                            click: (e) => {
-                                                handleFeatureClick(feature, mapRef.current)
-                                            },
-                                        }}
-                                    />
-                                );
-                            }
-                        })}
                         {interruptionShown && interruptions && interruptions[0] && (
                             <GeoJSON
-                                key={rerender+1}
+                                key={rerender + 1}
                                 data={interruptions}
                                 style={{
-                                        color: "red",
-                                        weight: 3
-                                    }}
+                                    color: "red",
+                                    weight: 3
+                                }}
                                 onEachFeature={(feature, layer) => {
                                     layer.on({
                                         click: () => {
@@ -489,7 +448,7 @@ function MapComponent() {
                         })}
                         {eauShown && eau && eau[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp+1)}
+                                key={"ATP" + (rerenderAtp + 1)}
                                 data={eau.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -543,7 +502,7 @@ function MapComponent() {
                         })}
                         {elecShown && elec && elec[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp+2)}
+                                key={"ATP" + (rerenderAtp + 2)}
                                 data={elec.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -598,7 +557,7 @@ function MapComponent() {
                         })}
                         {assainissementShown && assainissement && assainissement[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp+3)}
+                                key={"ATP" + (rerenderAtp + 3)}
                                 data={assainissement.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -653,7 +612,7 @@ function MapComponent() {
                         })}
                         {gazShown && gaz && gaz[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp+4)}
+                                key={"ATP" + (rerenderAtp + 4)}
                                 data={gaz.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -700,6 +659,47 @@ function MapComponent() {
                                         eventHandlers={{
                                             click: (e) => {
                                                 handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            }
+                        })}
+
+                        {restrictionShown && restrictions && restrictions[0] && (
+                            <GeoJSON
+                                key={rerender + 1}
+                                data={restrictions}
+                                style={{
+                                    color: "orange",
+                                    weight: 3
+                                }}
+                                onEachFeature={(feature, layer) => {
+                                    layer.on({
+                                        click: () => {
+                                            handleFeatureClick(feature, mapRef.current);
+                                        },
+                                    });
+                                }}
+                            />
+                        )}
+                        {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            if (feature.geometry.coordinates[0][lengthCoord]) {
+                                return (
+                                    <Marker
+                                        key={index}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={L.divIcon({
+                                            className: 'custom-icon',
+                                            html: `<img src="./images/AK14.png" class="icone"/>`,
+                                        })}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleFeatureClick(feature, mapRef.current)
                                             },
                                         }}
                                     />
