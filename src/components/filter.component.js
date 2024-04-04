@@ -13,8 +13,6 @@ function FilterComponent({ onFilterChange, isOpen }) {
             newFilters[filterType] = value;
             document.querySelector(`#${value}-filter`).classList.remove("unactive-filter");
         }
-
-
         setFilters(newFilters);
         onFilterChange(newFilters);
     };
