@@ -145,12 +145,11 @@ function MapComponent() {
                 }
             }
             if (feature.properties.gdp_arretes_de_circulation_nombre_de_jours) {
+                var jour = "jour";
                 if (feature.properties.gdp_arretes_de_circulation_nombre_de_jours > 1) {
-                    popupContent += `<strong>Intervention prévue :</strong> ${feature.properties.gdp_arretes_de_circulation_nombre_de_jours} jours ${date}<br>`;
-                }else{
-                    popupContent += `<strong>Intervention prévue :</strong> ${date}<br>`;
+                    jour = "jours"
                 }
-                
+                popupContent += `<strong>Durée d'intervention :</strong> ${feature.properties.gdp_arretes_de_circulation_nombre_de_jours} ${jour} ${date}<br>`;
             }
             if (feature.properties.en_cours_interdiction && feature.properties.en_cours_interdiction[0] !== null) {
                 let interdictions = feature.properties.en_cours_interdiction[0].split("\n").map((str) => {
