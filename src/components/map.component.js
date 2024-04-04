@@ -21,7 +21,11 @@ function MapComponent() {
     const [assainissement, setAssainissement] = useState({});
     const [rerenderRestr, setRerenderRestr] = useState(0);
     const [rerender, setRerender] = useState(0);
-    const [rerenderAtp, setRerenderAtpData] = useState(0);
+    const [rerenderTelecom, setRerenderTelecom] = useState(0);
+    const [rerenderEau, setRerenderEau] = useState(0);
+    const [rerenderElec, setRerenderElec] = useState(0);
+    const [rerenderGaz, setRerenderGaz] = useState(0);
+    const [rerenderAssainissement, setRerenderAssainissement] = useState(0);
     const mapRef = useRef(null);
     let highlightedDeviationLayer = null;
     const [restrictionShown, setRestrictionShown] = useState(true);
@@ -223,34 +227,6 @@ function MapComponent() {
     };
 
     const handleFilterChange = (filters) => {
-        // if (arretesData[0] !== undefined && arretesData[0].features) {
-        //     let filteredFeatures = arretesData[0].features;
-
-        //     if (filters) {
-        //         filteredFeatures = filteredFeatures.filter((feature) => {
-        //             return filters[feature.properties.gdp_arretes_de_circulation_type_arrete] === feature.properties.gdp_arretes_de_circulation_type_arrete.toLowerCase();
-        //         });
-        //     }
-
-        //     setFilteredData(prevData => {
-        //         return [{ features: filteredFeatures }];
-        //     });
-        //     setRerender(rerender + 1);
-        // }
-        // if (atpData !== undefined) {
-        //     let filteredFeatures = atpData;
-        //     if (filters.type !== "") {
-        //         filteredFeatures = filteredFeatures.filter((feature) => {
-        //             return filters[feature.properties.gdp_atp_sous_objet] === feature.properties.filter_type;
-        //         });
-        //     }
-
-        //     setFilteredAtp(prevData => {
-        //         return filteredFeatures;
-        //     });
-        //     setRerenderAtpData(rerenderAtp + 1);
-        // }
-
         if (filters["Restriction"] === "restriction") {
             setRestrictionShown(true);
             setRerenderRestr(rerenderRestr + 1);
@@ -265,33 +241,33 @@ function MapComponent() {
         }
         if (filters["Télécommunications"] === "telecom") {
             setTelecomShown(true);
-            setRerenderAtpData(rerenderAtp + 1);
+            setRerenderTelecom(rerenderTelecom + 1);
         } else {
             setTelecomShown(false);
         }
         if (filters["Electricité"] === "elec") {
             setElecShown(true);
-            setRerenderAtpData(rerenderAtp + 1);
+            setRerenderElec(rerenderElec + 1);
         }
         else {
             setElecShown(false);
         }
         if (filters["Eau potable"] === "eau") {
             setEauShown(true);
-            setRerenderAtpData(rerenderAtp + 1);
+            setRerenderEau(rerenderEau + 1);
         }
         else {
             setEauShown(false);
         }
         if (filters["Gaz"] === "gaz") {
             setGazShown(true);
-            setRerenderAtpData(rerenderAtp + 1);
+            setRerenderGaz(rerenderGaz + 1);
         } else {
             setGazShown(false);
         }
         if (filters["assainissement"] === "assainissement") {
             setAssainissementShown(true);
-            setRerenderAtpData(rerenderAtp + 1);
+            setRerenderAssainissement(rerenderAssainissement + 1);
         } else {
             setAssainissementShown(false);
         }
@@ -394,7 +370,7 @@ function MapComponent() {
                         })}
                         {telecomShown && telecom && telecom[0] && (
                             <GeoJSON
-                                key={"ATP" + rerenderAtp}
+                                key={"ATP" + rerenderTelecom}
                                 data={telecom.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -448,7 +424,7 @@ function MapComponent() {
                         })}
                         {eauShown && eau && eau[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp + 1)}
+                                key={"ATP" + rerenderEau}
                                 data={eau.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -502,7 +478,7 @@ function MapComponent() {
                         })}
                         {elecShown && elec && elec[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp + 2)}
+                                key={"ATP" + rerenderElec}
                                 data={elec.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -557,7 +533,7 @@ function MapComponent() {
                         })}
                         {assainissementShown && assainissement && assainissement[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp + 3)}
+                                key={"ATP" + rerenderAssainissement}
                                 data={assainissement.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
@@ -612,7 +588,7 @@ function MapComponent() {
                         })}
                         {gazShown && gaz && gaz[0] && (
                             <GeoJSON
-                                key={"ATP" + (rerenderAtp + 4)}
+                                key={"ATP" + rerenderGaz}
                                 data={gaz.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
                                 style={{ color: "blue", weight: 3 }}
                                 onEachFeature={(feature, layer) => {
