@@ -343,6 +343,7 @@ function MapComponent() {
                                         },
                                     });
                                 }}
+                                
                             />
                         )}
                         {interruptionShown && interruptions && interruptions[0] && interruptions.map((feature, index) => {
@@ -368,20 +369,6 @@ function MapComponent() {
                                 );
                             }
                         })}
-                        {telecomShown && telecom && telecom[0] && (
-                            <GeoJSON
-                                key={"ATP" + rerenderTelecom}
-                                data={telecom.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
-                                style={{ color: "blue", weight: 3 }}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleAtpClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
-                        )}
                         {telecomShown && telecom && telecom[0] && telecom.map((feature, index) => {
                             var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                             let markerIcon = L.divIcon({
@@ -422,20 +409,6 @@ function MapComponent() {
                                 );
                             }
                         })}
-                        {eauShown && eau && eau[0] && (
-                            <GeoJSON
-                                key={"ATP" + rerenderEau}
-                                data={eau.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
-                                style={{ color: "blue", weight: 3 }}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleAtpClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
-                        )}
                         {eauShown && eau && eau[0] && eau.map((feature, index) => {
                             var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                             let markerIcon = L.divIcon({
@@ -476,20 +449,6 @@ function MapComponent() {
                                 );
                             }
                         })}
-                        {elecShown && elec && elec[0] && (
-                            <GeoJSON
-                                key={"ATP" + rerenderElec}
-                                data={elec.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
-                                style={{ color: "blue", weight: 3 }}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleAtpClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
-                        )}
                         {elecShown && elec && elec[0] && elec.map((feature, index) => {
                             var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
@@ -531,20 +490,6 @@ function MapComponent() {
                                 );
                             }
                         })}
-                        {assainissementShown && assainissement && assainissement[0] && (
-                            <GeoJSON
-                                key={"ATP" + rerenderAssainissement}
-                                data={assainissement.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
-                                style={{ color: "blue", weight: 3 }}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleAtpClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
-                        )}
                         {assainissementShown && assainissement && assainissement[0] && assainissement.map((feature, index) => {
                             var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
@@ -586,20 +531,6 @@ function MapComponent() {
                                 );
                             }
                         })}
-                        {gazShown && gaz && gaz[0] && (
-                            <GeoJSON
-                                key={"ATP" + rerenderGaz}
-                                data={gaz.filter((feature) => { return feature.geometry.type === "MultiLineString" })}
-                                style={{ color: "blue", weight: 3 }}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleAtpClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
-                        )}
                         {gazShown && gaz && gaz[0] && gaz.map((feature, index) => {
                             var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
