@@ -144,7 +144,7 @@ function MapComponent() {
             }
             var date = ``;
             if (feature.properties.gdp_arretes_de_circulation_date_de_debut && feature.properties.gdp_arretes_de_circulation_date_de_fin) {
-                var date = `dans la période du ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)} au ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_fin)}`;
+                date = `dans la période du ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)} au ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_fin)}`;
                 if (feature.properties.gdp_arretes_de_circulation_nombre_de_jours === 1) {
                     date = `le ${formatDate(feature.properties.gdp_arretes_de_circulation_date_de_debut)}`;
                 }
@@ -328,6 +328,49 @@ function MapComponent() {
                         >
                             <Popup>Vous êtes ici</Popup>
                         </Marker>)}
+                        {restrictionShown && restrictions && restrictions[0] && (
+                            <GeoJSON
+                                key={rerender}
+                                data={restrictions}
+                                style={(feature) => {
+                                    return {
+                                        color: 'orange',
+                                        weight: 3,
+                                    };
+                                }}
+                                onEachFeature={(feature, layer) => {
+                                    layer.on({
+                                        click: () => {
+                                            handleFeatureClick(feature, mapRef.current);
+                                        },
+                                    });
+                                }}
+                                className="restriction"
+                            />
+                        )}
+                        {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            if (feature.geometry.coordinates[0][lengthCoord]) {
+                                return (
+                                    <Marker
+                                        key={index}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={L.divIcon({
+                                            className: 'custom-icon',
+                                            html: `<img src="./images/AK14.png" class="icone"/>`,
+                                        })}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleFeatureClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            }
+                        })}
                         {interruptionShown && interruptions && interruptions[0] && (
                             <GeoJSON
                                 key={rerender + 1}
@@ -335,7 +378,7 @@ function MapComponent() {
                                 style={(feature) => {
                                     return {
                                         color: 'red',
-                                        weight: 3,
+                                        weight: 4,
                                     };
                                 }}
                                 onEachFeature={(feature, layer) => {
@@ -369,6 +412,8 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else{
+                                return null;
                             }
                         })}
                         {telecomShown && telecom && telecom[0] && telecom.map((feature, index) => {
@@ -575,49 +620,7 @@ function MapComponent() {
                             }
                         })}
 
-                        {restrictionShown && restrictions && restrictions[0] && (
-                            <GeoJSON
-                                key={rerender + 2}
-                                data={restrictions}
-                                style={(feature) => {
-                                    return {
-                                        color: 'orange',
-                                        weight: 3,
-                                    };
-                                }}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleFeatureClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                                className="restriction"
-                            />
-                        )}
-                        {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
-                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                            if (feature.geometry.coordinates[0][lengthCoord]) {
-                                return (
-                                    <Marker
-                                        key={index}
-                                        position={[
-                                            feature.geometry.coordinates[0][lengthCoord][1],
-                                            feature.geometry.coordinates[0][lengthCoord][0],
-                                        ]}
-                                        icon={L.divIcon({
-                                            className: 'custom-icon',
-                                            html: `<img src="./images/AK14.png" class="icone"/>`,
-                                        })}
-                                        eventHandlers={{
-                                            click: (e) => {
-                                                handleFeatureClick(feature, mapRef.current)
-                                            },
-                                        }}
-                                    />
-                                );
-                            }
-                        })}
+                        
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
                             attribution='<a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> contributors'
