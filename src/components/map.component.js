@@ -345,7 +345,7 @@ function MapComponent() {
                                         },
                                     });
                                 }}
-                                
+                                className="interruption"
                             />
                         )}
                         {interruptionShown && interruptions && interruptions[0] && interruptions.map((feature, index) => {
@@ -577,7 +577,7 @@ function MapComponent() {
 
                         {restrictionShown && restrictions && restrictions[0] && (
                             <GeoJSON
-                                key={rerender + 1}
+                                key={rerender + 2}
                                 data={restrictions}
                                 style={(feature) => {
                                     return {
@@ -592,6 +592,7 @@ function MapComponent() {
                                         },
                                     });
                                 }}
+                                className="restriction"
                             />
                         )}
                         {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
