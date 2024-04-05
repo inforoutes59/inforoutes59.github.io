@@ -229,45 +229,38 @@ function MapComponent() {
     const handleFilterChange = (filters) => {
         if (filters["Restriction"] === "restriction") {
             setRestrictionShown(true);
-            setRerenderRestr(rerenderRestr + 1);
         } else {
             setRestrictionShown(false);
         }
         if (filters["Interruption"] === "interruption") {
             setInterruptionShown(true);
-            setRerender(rerender + 1);
         } else {
             setInterruptionShown(false);
         }
         if (filters["Télécommunications"] === "telecom") {
             setTelecomShown(true);
-            setRerenderTelecom(rerenderTelecom + 1);
         } else {
             setTelecomShown(false);
         }
         if (filters["Electricité"] === "elec") {
             setElecShown(true);
-            setRerenderElec(rerenderElec + 1);
         }
         else {
             setElecShown(false);
         }
         if (filters["Eau potable"] === "eau") {
             setEauShown(true);
-            setRerenderEau(rerenderEau + 1);
         }
         else {
             setEauShown(false);
         }
         if (filters["Gaz"] === "gaz") {
             setGazShown(true);
-            setRerenderGaz(rerenderGaz + 1);
         } else {
             setGazShown(false);
         }
         if (filters["assainissement"] === "assainissement") {
             setAssainissementShown(true);
-            setRerenderAssainissement(rerenderAssainissement + 1);
         } else {
             setAssainissementShown(false);
         }
