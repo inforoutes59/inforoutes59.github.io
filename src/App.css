@@ -118,3 +118,8 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #0056b3; /* Couleur de fond bleue foncée au survol */
 }
+
+.interruption{
+  color: red;
+  font-weight : 3;
+}
