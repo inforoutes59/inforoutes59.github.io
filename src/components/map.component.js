@@ -332,9 +332,11 @@ function MapComponent() {
                             <GeoJSON
                                 key={rerender + 1}
                                 data={interruptions}
-                                style={{
-                                    color: "red",
-                                    weight: 3
+                                style={(feature) => {
+                                    return {
+                                        color: 'red',
+                                        weight: 3,
+                                    };
                                 }}
                                 onEachFeature={(feature, layer) => {
                                     layer.on({
@@ -577,9 +579,11 @@ function MapComponent() {
                             <GeoJSON
                                 key={rerender + 1}
                                 data={restrictions}
-                                style={{
-                                    color: "orange",
-                                    weight: 3
+                                style={(feature) => {
+                                    return {
+                                        color: 'orange',
+                                        weight: 3,
+                                    };
                                 }}
                                 onEachFeature={(feature, layer) => {
                                     layer.on({
