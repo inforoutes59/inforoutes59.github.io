@@ -2,7 +2,7 @@ import React from 'react';
 import { TileLayer, MapContainer, Marker, Popup } from 'react-leaflet';
 import Legend from './legend.component';
 import { GeoJSON } from 'react-leaflet/GeoJSON'
-import geojson from '../departement-59-nord.json';
+import geojson from '../departement-59-nord-2.json';
 import L from 'leaflet';
 import rdData from '../rd.json';
 import { useEffect, useState, useRef } from 'react';
@@ -308,6 +308,8 @@ function MapComponent() {
                                 colorArrondissement = '#eb34e8';
                             } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DUNKERQUE") {
                                 colorArrondissement = '#eb3434';
+                            } else if (feature.properties.Name === "LILLE") {
+                                colorArrondissement = 'grey';
                             }
                             return (<GeoJSON
                                 data={feature}
