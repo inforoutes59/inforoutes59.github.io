@@ -37,6 +37,7 @@ function MapComponent() {
     const [gazShown, setGazShown] = useState(true);
     const [assainissementShown, setAssainissementShown] = useState(true);
     const [cityCoords, setCityCoords] = useState({});
+    const [zoom, setZoom] = useState(9);
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-'); // Sépare les parties de la date
         const day = dateParts[2];
@@ -190,7 +191,9 @@ function MapComponent() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setLocation([latitude, longitude]);
-        setGeolocDetect(true)
+        setGeolocDetect(true);
+        setZoom(12);
+        mapRef.current.setView([latitude, longitude], 12);
     }
 
     const error = () => {
@@ -291,7 +294,7 @@ function MapComponent() {
                     <MapContainer
                         className="markercluster-map"
                         center={location}
-                        zoom={9}
+                        zoom={zoom}
                         maxZoom={18}
                         ref={mapRef}
                     >
