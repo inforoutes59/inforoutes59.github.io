@@ -1,5 +1,6 @@
 import React from 'react';
 import { TileLayer, MapContainer, Marker, Popup } from 'react-leaflet';
+import Legend from './legend.component';
 import { GeoJSON } from 'react-leaflet/GeoJSON'
 import geojson from '../departement-59-nord.json';
 import L from 'leaflet';
@@ -59,7 +60,6 @@ function MapComponent() {
         getRestrictions()
             .then((response) => {
                 setRestrictions(response);
-                console.log(response)
             })
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -123,6 +123,9 @@ function MapComponent() {
         if (feature.properties) {
             const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
             let popupContent = '<div>';
+            if (feature.properties.voie_designation) {
+                popupContent += `<strong>Voie:</strong> ${feature.properties.voie_designation}<br>`;
+            }
             if (feature.properties.gdp_arretes_de_circulation_type_arrete) {
                 popupContent += `<strong>Type:</strong> ${feature.properties.gdp_arretes_de_circulation_type_arrete}<br>`;
                 if (feature.properties.gdp_arretes_de_circulation_type_arrete === "Interruption" && feature.properties.deviation) {
@@ -292,17 +295,30 @@ function MapComponent() {
                         maxZoom={18}
                         ref={mapRef}
                     >
-                        <GeoJSON
-                            data={geojson}
-                            style={(feature) => {
-                                return {
-                                    fillColor: 'transparent',
-                                    color: '#00A9CE',
-                                    weight: 2,
-                                    fillOpacity: 0.6
-                                };
-                            }}
-                        />
+                        {geojson.features.map((feature, index) => {
+                            let colorArrondissement = '#345eeb';
+                            if (feature.properties.Name === "ARRONDISSEMENT ROUTIER AVESNES") {
+                                colorArrondissement = '#ebd834';
+                            } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER CAMBRAI") {
+                                colorArrondissement = '#34eb71';
+                            } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DOUAI") {
+                                colorArrondissement = '#eb34e8';
+                            } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DUNKERQUE") {
+                                colorArrondissement = '#eb3434';
+                            }
+                            return (<GeoJSON
+                                data={feature}
+                                style={(feature) => {
+                                    return {
+                                        fillColor: 'transparent',
+                                        color: colorArrondissement,
+                                        weight: 2,
+                                        fillOpacity: 0.6
+                                    };
+                                }}
+                            />)
+                        })
+                        }
                         <GeoJSON
                             data={rdData}
                             style={(feature) => {
@@ -405,7 +421,7 @@ function MapComponent() {
                                         }}
                                     />
                                 );
-                            }else{
+                            } else {
                                 return null;
                             }
                         })}
@@ -612,8 +628,7 @@ function MapComponent() {
                                 );
                             }
                         })}
-
-                        
+                        <Legend />
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
                             attribution='<a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> contributors'
