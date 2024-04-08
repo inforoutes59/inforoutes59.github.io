@@ -204,6 +204,9 @@ function MapComponent() {
         if (feature.properties) {
             const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
             let popupContent = '<div>';
+            if (feature.properties.voie_designation) {
+                popupContent += `<strong>Voie:</strong> ${feature.properties.voie_designation}<br>`;
+            }
             if (feature.properties.gdp_atp_sous_objet) {
                 popupContent += `<strong>Objet:</strong> ${feature.properties.gdp_atp_sous_objet}<br>`;
             }
