@@ -259,6 +259,8 @@ function MapComponent() {
                 .openOn(map);
             if(mapRef.current.getZoom() < 14){
                 mapRef.current.setView(latLng, 14);
+            }else{
+                mapRef.current.setView(latLng, mapRef.current.getZoom());
             }
 
         }
