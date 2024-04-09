@@ -138,7 +138,7 @@ function MapComponent() {
             const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
             let popupContent = '<div>';
             if (feature.properties.voie_designation) {
-                popupContent += `<strong>Voie:</strong> ${feature.properties.voie_designation}<br>`;
+                popupContent += `<strong>Voie: </strong> ${feature.properties.voie_designation}<br>`;
             }
             if (feature.properties.gdp_arretes_de_circulation_type_arrete) {
                 popupContent += `<strong>Type:</strong> ${feature.properties.gdp_arretes_de_circulation_type_arrete}<br>`;
