@@ -199,7 +199,7 @@ function MapComponent() {
                     mapRef.current.fitBounds(highlightedDeviationLayer.getBounds());
                 }else{
                     if(mapRef.current.getZoom() < 14){
-                        mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], highlightedDeviationLayer.fitBounds());
+                        mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], 14);
                     }
                 }
             }
