@@ -191,7 +191,9 @@ function MapComponent() {
                 .setLatLng([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]])
                 .setContent(popupContent)
                 .openOn(map);
-            mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], 14);
+            if(mapRef.current.getZoom() < 14){
+                mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], 14);
+            }
             mapRef.current.on('popupclose', () => {
                 if (highlightedDeviationLayer) {
                     mapRef.current.removeLayer(highlightedDeviationLayer);
@@ -246,7 +248,9 @@ function MapComponent() {
                 .setLatLng(latLng)
                 .setContent(popupContent)
                 .openOn(map);
-            mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], 14);
+            if(mapRef.current.getZoom() < 14){
+                mapRef.current.setView(latLng, 14);
+            }
 
         }
     };
