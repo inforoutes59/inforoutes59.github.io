@@ -191,15 +191,15 @@ function MapComponent() {
                 .setLatLng([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]])
                 .setContent(popupContent)
                 .openOn(map);
-            // if(mapRef.current.getZoom() < 14){
-            //     mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], highlightedDeviationLayer.fitBounds());
-            // }
+
             if (feature.properties.gdp_arretes_de_circulation_type_arrete) {
                 if (feature.properties.gdp_arretes_de_circulation_type_arrete === "Interruption" && feature.properties.deviation) {
                     mapRef.current.fitBounds(highlightedDeviationLayer.getBounds());
                 }else{
                     if(mapRef.current.getZoom() < 14){
                         mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], 14);
+                    }else{
+                        mapRef.current.setView([feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]], mapRef.current.getZoom());
                     }
                 }
             }
