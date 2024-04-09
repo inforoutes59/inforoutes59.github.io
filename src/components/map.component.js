@@ -2,7 +2,7 @@ import React from 'react';
 import { TileLayer, MapContainer, Marker, Popup } from 'react-leaflet';
 import Legend from './legend.component';
 import { GeoJSON } from 'react-leaflet/GeoJSON'
-import geojson from '../departement-59-nord-2.json';
+import geojson from '../departement-59-nord.json';
 import L from 'leaflet';
 import rdData from '../rd.json';
 import { useEffect, useState, useRef } from 'react';
@@ -20,13 +20,6 @@ function MapComponent() {
     const [eau, setEau] = useState({});
     const [gaz, setGaz] = useState({});
     const [assainissement, setAssainissement] = useState({});
-    const [rerenderRestr, setRerenderRestr] = useState(0);
-    const [rerender, setRerender] = useState(0);
-    const [rerenderTelecom, setRerenderTelecom] = useState(0);
-    const [rerenderEau, setRerenderEau] = useState(0);
-    const [rerenderElec, setRerenderElec] = useState(0);
-    const [rerenderGaz, setRerenderGaz] = useState(0);
-    const [rerenderAssainissement, setRerenderAssainissement] = useState(0);
     const mapRef = useRef(null);
     let highlightedDeviationLayer = null;
     const [restrictionShown, setRestrictionShown] = useState(true);
@@ -312,7 +305,7 @@ function MapComponent() {
                                 colorArrondissement = '#eb34e8';
                             } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DUNKERQUE") {
                                 colorArrondissement = '#eb3434';
-                            } else if (feature.properties.Name === "LILLE") {
+                            } else if (feature.properties.Name === "MEL") {
                                 colorArrondissement = 'grey';
                                 zindex = 98
                             }
@@ -350,7 +343,7 @@ function MapComponent() {
                         </Marker>)}
                         {restrictionShown && restrictions && restrictions[0] && (
                             <GeoJSON
-                                key={rerender}
+                                key={0}
                                 data={restrictions}
                                 style={(feature) => {
                                     return {
@@ -389,11 +382,13 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else {
+                                return null;
                             }
                         })}
                         {interruptionShown && interruptions && interruptions[0] && (
                             <GeoJSON
-                                key={rerender + 1}
+                                key={1}
                                 data={interruptions}
                                 style={(feature) => {
                                     return {
@@ -474,6 +469,8 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else{
+                                return null;
                             }
                         })}
                         {eauShown && eau && eau[0] && eau.map((feature, index) => {
@@ -514,6 +511,8 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else{
+                                return null;
                             }
                         })}
                         {elecShown && elec && elec[0] && elec.map((feature, index) => {
@@ -555,6 +554,8 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else{
+                                return null;
                             }
                         })}
                         {assainissementShown && assainissement && assainissement[0] && assainissement.map((feature, index) => {
@@ -596,6 +597,8 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else{
+                                return null;
                             }
                         })}
                         {gazShown && gaz && gaz[0] && gaz.map((feature, index) => {
@@ -637,6 +640,8 @@ function MapComponent() {
                                         }}
                                     />
                                 );
+                            }else{
+                                return null;
                             }
                         })}
                         <Legend />
