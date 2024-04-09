@@ -113,6 +113,26 @@ function MapComponent() {
             });
     };
 
+    const handleRdClick = (feature, map, e) => {
+        if (feature.properties) {
+            let popupContent = '<div>';
+            if (feature.properties.designation) {
+                popupContent += `${feature.properties.designation}`;
+            }
+            popupContent += '</div>';
+            L.popup()
+                .setLatLng(e.latlng)
+                .setContent(popupContent)
+                .openOn(map);
+            mapRef.current.on('popupclose', () => {
+                if (highlightedDeviationLayer) {
+                    mapRef.current.removeLayer(highlightedDeviationLayer);
+                    highlightedDeviationLayer = null;
+                }
+            });
+        }
+    };
+
     const handleFeatureClick = (feature, map) => {
         if (feature.properties) {
             const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
@@ -330,6 +350,13 @@ function MapComponent() {
                                     color: '#00A9CE',
                                     weight: 2
                                 };
+                            }}
+                            onEachFeature={(feature, layer) => {
+                                layer.on({
+                                    click: (e) => {
+                                        handleRdClick(feature, mapRef.current, e);
+                                    },
+                                });
                             }}
                         />
                         {geolocDetect && (<Marker
