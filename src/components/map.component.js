@@ -303,6 +303,7 @@ function MapComponent() {
                     >
                         {geojson.features.map((feature, index) => {
                             let colorArrondissement = '#345eeb';
+                            let zindex = 99
                             if (feature.properties.Name === "ARRONDISSEMENT ROUTIER AVESNES") {
                                 colorArrondissement = '#ebd834';
                             } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER CAMBRAI") {
@@ -313,6 +314,7 @@ function MapComponent() {
                                 colorArrondissement = '#eb3434';
                             } else if (feature.properties.Name === "LILLE") {
                                 colorArrondissement = 'grey';
+                                zindex = 98
                             }
                             return (<GeoJSON
                                 data={feature}
@@ -321,7 +323,8 @@ function MapComponent() {
                                         fillColor: 'transparent',
                                         color: colorArrondissement,
                                         weight: 2,
-                                        fillOpacity: 0.6
+                                        fillOpacity: 0.6,
+                                        zIndex: zindex
                                     };
                                 }}
                             />)

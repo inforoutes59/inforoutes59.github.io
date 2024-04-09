@@ -18,7 +18,6 @@ function Legend() {
             <div><span style="background-color: #eb34e8; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Douai</div>
             <div><span style="background-color: #eb3434; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Dunkerque</div>
             <div><span style="background-color: #345eeb; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Valenciennes</div>
-            <div><span style="background-color: grey; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>MEL</div>
         `;
         return legendDiv;
     };
