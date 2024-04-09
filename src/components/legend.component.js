@@ -9,8 +9,9 @@ function Legend() {
     const createLegend = () => {
         const legendDiv = L.DomUtil.create('div', 'legend');
         legendDiv.style.backgroundColor = 'white';
-        legendDiv.style.width = '11vh'; 
+        legendDiv.style.width = '12vh'; 
         legendDiv.style.fontSize = '1.2vh';
+        legendDiv.style.padding = '0.2vh';
         legendDiv.innerHTML = `
             <div>Arrondissements :</div>
             <div><span style="background-color: #ebd834; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Avesnes</div>
