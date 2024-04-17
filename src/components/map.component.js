@@ -10,7 +10,6 @@ import rdData from '../rd.json';
 import { useEffect, useState, useRef } from 'react';
 import { searchCity, getInterruptions, getRestrictions, getTelecom, getAssainissement, getEau, getElec, getGaz } from '../controllers/geocoding.controller';
 import FilterComponent from './filter.component';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
 
 function MapComponent() {
     const [isNavOpen, setIsNavOpen] = useState(false);
@@ -34,7 +33,7 @@ function MapComponent() {
     const [assainissementShown, setAssainissementShown] = useState(true);
     const [zoom, setZoom] = useState(9);
     function formatDate(inputDate) {
-        const dateParts = inputDate.split('+')[0].split('-'); // Sépare les parties de la date
+        const dateParts = inputDate.split('+')[0].split('-');
         const day = dateParts[2];
         const month = dateParts[1];
         const year = dateParts[0];
