@@ -20,7 +20,7 @@ export async function getRestrictions(){
     //const apiUrl = 'http://localhost:3001/restrictions'
     return axios.get(apiUrl)
         .then((response) => {
-            return response.data;
+            return JSON.stringify(response.data);
             //return JSON.parse(response.data);
         })
         .catch((error) => {
