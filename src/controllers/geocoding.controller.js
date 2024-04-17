@@ -15,9 +15,8 @@ export async function getInterruptions(){
 }
 
 export async function getRestrictions(){
-    // const fileId = '1eAU-fskCxSn93MswZQapBRLa73WnH7Eh'
-    // const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
-    const apiUrl = 'http://localhost:3001/restrictions'
+    const fileId = '1eAU-fskCxSn93MswZQapBRLa73WnH7Eh'
+    const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
             return JSON.parse(response.data);
