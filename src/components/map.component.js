@@ -495,7 +495,6 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/AK14.png" class="icone"/>`,
-                                                iconUrl: './images/AK14.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
@@ -515,7 +514,6 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/AK14.png" class="icone"/>`,
-                                                iconUrl: './images/AK14.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
@@ -559,7 +557,6 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/B1.png" class="icone"/>`,
-                                                iconUrl: './images/B1.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
@@ -579,7 +576,6 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/B1.png" class="icone"/>`,
-                                                iconUrl: './images/B1.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
