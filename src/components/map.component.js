@@ -497,6 +497,8 @@ function MapComponent() {
                         >
                             {restrictions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                                console.log("Length Coord:", lengthCoord);
+                                console.log("Coordinates:", feature.geometry.coordinates[0][lengthCoord]);
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
                                         <Marker
@@ -554,6 +556,8 @@ function MapComponent() {
                         >
                             {interruptions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                                console.log("Length Coord:", lengthCoord);
+                                console.log("Coordinates:", feature.geometry.coordinates[0][lengthCoord]);
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
                                         <Marker
