@@ -484,7 +484,7 @@ function MapComponent() {
                         )}
                         {restrictionShown && restrictions && restrictions[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
                             var markers = cluster.getAllChildMarkers();
-                            var html = '<div class="markerRestriction">' + markers.length + '</div>';
+                            var html = '<div class="markerRestriction">' + markers.length + '<img src="./images/AK14.png" class="icone"/></div>';
                             return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) })
                         }}
                             maxClusterRadius={50}
@@ -560,7 +560,7 @@ function MapComponent() {
                         )}
                         {interruptionShown && interruptions && interruptions[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
                             var markers = cluster.getAllChildMarkers();
-                            var html = '<div class="markerInterruption">' + markers.length + '</div>';
+                            var html = '<div class="markerInterruption">' + markers.length + '<img src="./images/B1.png" class="icone"/></div>';
                             return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) })
                         }}
                             maxClusterRadius={50}
