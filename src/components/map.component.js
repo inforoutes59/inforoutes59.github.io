@@ -516,8 +516,6 @@ function MapComponent() {
                                             }}
                                         />
                                     );
-                                } else {
-                                    return null;
                                 }
                             })}
                         </MarkerClusterGroup>}
@@ -575,8 +573,6 @@ function MapComponent() {
                                             }}
                                         />
                                     );
-                                } else {
-                                    return null;
                                 }
                             })}
                         </MarkerClusterGroup>}

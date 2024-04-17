@@ -7,7 +7,6 @@ export async function getInterruptions(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
-            console.log(JSON.parse(response.data))
             return response.data;
         })
         .catch((error) => {
@@ -21,7 +20,6 @@ export async function getRestrictions(){
     //const apiUrl = 'http://localhost:3001/restrictions'
     return axios.get(apiUrl)
         .then((response) => {
-            console.log(response)
             return response.data;
             //return JSON.parse(response.data);
         })
