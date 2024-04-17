@@ -518,6 +518,25 @@ function MapComponent() {
                                             }}
                                         />
                                     );
+                                }else{
+                                    return (
+                                        <Marker
+                                            key={index}
+                                            position={[
+                                                feature.geometry.coordinates[1],
+                                                feature.geometry.coordinates[0],
+                                            ]}
+                                            icon={L.divIcon({
+                                                className: 'custom-icon',
+                                                html: `<img src="./images/AK14.png" class="icone"/>`,
+                                            })}
+                                            eventHandlers={{
+                                                click: (e) => {
+                                                    handleFeatureClick(feature, mapRef.current)
+                                                },
+                                            }}
+                                        />
+                                    );
                                 }
                             })}
                         </MarkerClusterGroup>}
@@ -565,6 +584,25 @@ function MapComponent() {
                                             position={[
                                                 feature.geometry.coordinates[0][lengthCoord][1],
                                                 feature.geometry.coordinates[0][lengthCoord][0],
+                                            ]}
+                                            icon={L.divIcon({
+                                                className: 'custom-icon',
+                                                html: `<img src="./images/B1.png" class="icone"/>`,
+                                            })}
+                                            eventHandlers={{
+                                                click: (e) => {
+                                                    handleFeatureClick(feature, mapRef.current)
+                                                },
+                                            }}
+                                        />
+                                    );
+                                }else{
+                                    return (
+                                        <Marker
+                                            key={index}
+                                            position={[
+                                                feature.geometry.coordinates[1],
+                                                feature.geometry.coordinates[0],
                                             ]}
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
