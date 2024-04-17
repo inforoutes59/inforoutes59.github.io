@@ -19,7 +19,7 @@ export async function getRestrictions(){
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     return axios.get(apiUrl)
         .then((response) => {
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
