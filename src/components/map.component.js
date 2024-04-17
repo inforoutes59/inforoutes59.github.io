@@ -483,11 +483,9 @@ function MapComponent() {
                             />
                         )}
                         {restrictionShown && restrictions && restrictions[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<img src="./images/AK14.png" class="icone"/></span>`,
-                                iconUrl: './images/AK14.png'
-                            })
+                            var markers = cluster.getAllChildMarkers();
+                            var html = '<div class="markerRestriction">' + markers.length + '</div>';
+                            return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) })
                         }}
                             maxClusterRadius={50}
                             zoomToBoundsOnClick={true}
@@ -497,8 +495,6 @@ function MapComponent() {
                         >
                             {restrictions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                                console.log("Length Coord:", lengthCoord);
-                                console.log("Coordinates:", feature.geometry.coordinates[0][lengthCoord]);
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
                                         <Marker
@@ -563,11 +559,9 @@ function MapComponent() {
                             />
                         )}
                         {interruptionShown && interruptions && interruptions[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<img src="./images/B1.png" class="icone"/></span>`,
-                                iconUrl: './images/B1.png'
-                            })
+                            var markers = cluster.getAllChildMarkers();
+                            var html = '<div class="markerInterruption">' + markers.length + '</div>';
+                            return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) })
                         }}
                             maxClusterRadius={50}
                             zoomToBoundsOnClick={true}
