@@ -487,6 +487,7 @@ function MapComponent() {
                             return new L.divIcon({
                                 className: 'custom-cluster',
                                 html: `<span>${cluster.getChildCount()}<img src="./images/AK14.png" class="icone"/></span>`,
+                                iconUrl: './images/AK14.png'
                             })
                         }}
                             maxClusterRadius={50}
@@ -545,6 +546,7 @@ function MapComponent() {
                             return new L.divIcon({
                                 className: 'custom-cluster',
                                 html: `<span>${cluster.getChildCount()}<img src="./images/B1.png" class="icone"/></span>`,
+                                iconUrl: './images/B1.png'
                             })
                         }}
                             maxClusterRadius={50}
