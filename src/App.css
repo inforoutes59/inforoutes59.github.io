@@ -33,6 +33,12 @@
   font-size: 1.2rem;
 }
 
+.custom-cluster{
+  font-size: 1.2rem;
+  justify-items: center;
+  display: inline-flex;
+}
+
 .filter{
   width: 100%;
   margin: 0;
