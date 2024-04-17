@@ -510,6 +510,7 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/AK14.png" class="icone"/>`,
+                                                iconUrl: './images/AK14.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
@@ -529,6 +530,7 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/AK14.png" class="icone"/>`,
+                                                iconUrl: './images/AK14.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
@@ -575,8 +577,6 @@ function MapComponent() {
                         >
                             {interruptions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                                console.log("Length Coord:", lengthCoord);
-                                console.log("Coordinates:", feature.geometry.coordinates[0][lengthCoord]);
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
                                         <Marker
@@ -588,6 +588,7 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/B1.png" class="icone"/>`,
+                                                iconUrl: './images/B1.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
@@ -607,6 +608,7 @@ function MapComponent() {
                                             icon={L.divIcon({
                                                 className: 'custom-icon',
                                                 html: `<img src="./images/B1.png" class="icone"/>`,
+                                                iconUrl: './images/B1.png'
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
