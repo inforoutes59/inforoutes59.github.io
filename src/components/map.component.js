@@ -210,6 +210,7 @@ function MapComponent() {
             });
         }
     };
+    
 
     const handleFeatureClick = (feature, map) => {
         if (feature.properties) {
