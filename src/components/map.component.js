@@ -185,6 +185,7 @@ function MapComponent() {
             if (highlightedDeviationLayer) {
                 mapRef.current.removeLayer(highlightedDeviationLayer);
                 highlightedDeviationLayer = null;
+                document.getElementById('search-input').value = '';
             }
         }
         );
@@ -492,9 +493,9 @@ function MapComponent() {
                                                 feature.geometry.coordinates[0][lengthCoord][1],
                                                 feature.geometry.coordinates[0][lengthCoord][0],
                                             ]}
-                                            icon={L.divIcon({
+                                            icon={L.Icon({
                                                 className: 'custom-icon',
-                                                html: `<img src="./images/AK14.png" class="icone"/>`,
+                                                iconUrl: './images/AK14.png',
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {

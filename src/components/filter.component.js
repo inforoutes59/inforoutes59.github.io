@@ -23,10 +23,10 @@ function FilterComponent({ onFilterChange, isOpen }) {
             <h4 id="type-intervention">Type d'intervention</h4>
             <div className='row'>
                 <div className={`${filters['Restriction']!=='restriction'?'unactive-filter':''} 'col-12'`} id="restriction-filter" onClick={(e) => handleFilterChange("Restriction", "restriction")}>
-                    <label className='filter'><img src="./images/AK14.png" className="filter-logo"/><div className='filter-text'>Restriction</div></label>
+                    <label className='filter'><img src="./images/AK14.png" className="filter-logo" alt='Restriction'/><div className='filter-text'>Restriction</div></label>
                 </div>
                 <div className={`${filters['Interruption']!=='interruption'?'unactive-filter':''} 'col-12'`} id="interruption-filter" onClick={(e) => handleFilterChange("Interruption", "interruption")}>
-                    <label className='filter'><img src="./images/B1.png" className="filter-logo"/><div className='filter-text'>Interruption</div></label>
+                    <label className='filter'><img src="./images/B1.png" className="filter-logo" alt='interruption'/><div className='filter-text'>Interruption</div></label>
                 </div>
                 <div className={`${filters['Télécommunications']!=='telecom'?'unactive-filter':''} 'col-12'`} id="telecom-filter" onClick={(e) => handleFilterChange("Télécommunications", "telecom")}>
                     <label className='filter'><i className="fa-solid fa-phone" style={{ color: "green" }}></i><div className='filter-text'>Télécommunications</div></label>
