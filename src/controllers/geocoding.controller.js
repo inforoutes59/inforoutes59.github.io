@@ -33,6 +33,7 @@ export function searchCity(cityName) {
   return axios.get(apiUrl)
             .then((city) => {
                 const coords = {
+                    name: city.data[0].name,
                     lat: parseFloat(city.data[0].lat),
                     lon: parseFloat(city.data[0].lon),
                 };
