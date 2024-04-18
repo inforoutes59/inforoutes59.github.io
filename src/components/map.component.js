@@ -1,6 +1,5 @@
 import React from 'react';
 import { TileLayer, MapContainer, Marker, Popup } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-cluster';
 import Legend from './legend.component';
 import { GeoJSON } from 'react-leaflet/GeoJSON'
 import geojson from '../departement-59-nord.json';
