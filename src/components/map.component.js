@@ -493,9 +493,9 @@ function MapComponent() {
                                                 feature.geometry.coordinates[0][lengthCoord][1],
                                                 feature.geometry.coordinates[0][lengthCoord][0],
                                             ]}
-                                            icon={L.Icon({
+                                            icon={L.divIcon({
                                                 className: 'custom-icon',
-                                                iconUrl: './images/AK14.png',
+                                                html: `<img src="./images/AK14.png" class="icone"/>`,
                                             })}
                                             eventHandlers={{
                                                 click: (e) => {
