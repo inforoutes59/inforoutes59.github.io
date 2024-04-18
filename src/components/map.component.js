@@ -483,7 +483,7 @@ function MapComponent() {
                                 className="restriction"
                             />
                         )}
-                        {restrictionShown && restrictions && restrictions[0] && <restrictions.map((feature, index) => {
+                        {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
