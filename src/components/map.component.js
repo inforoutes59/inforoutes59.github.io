@@ -483,18 +483,7 @@ function MapComponent() {
                                 className="restriction"
                             />
                         )}
-                        {restrictionShown && restrictions && restrictions[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            var markers = cluster.getAllChildMarkers();
-                            var html = '<div class="markerRestriction">' + markers.length + '</div>';
-                            return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {restrictions.map((feature, index) => {
+                        {restrictionShown && restrictions && restrictions[0] && <restrictions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
@@ -536,7 +525,6 @@ function MapComponent() {
                                     );
                                 }
                             })}
-                        </MarkerClusterGroup>}
                         {interruptionShown && interruptions && interruptions[0] && (
                             <GeoJSON
                                 key={1}
@@ -557,18 +545,7 @@ function MapComponent() {
                                 className="interruption"
                             />
                         )}
-                        {interruptionShown && interruptions && interruptions[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            var markers = cluster.getAllChildMarkers();
-                            var html = '<div class="markerInterruption">' + markers.length + '</div>';
-                            return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {interruptions.map((feature, index) => {
+                        {interruptionShown && interruptions && interruptions[0] && interruptions.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                                 if (feature.geometry.coordinates[0][lengthCoord]) {
                                     return (
@@ -610,20 +587,7 @@ function MapComponent() {
                                     );
                                 }
                             })}
-                        </MarkerClusterGroup>}
-                        {telecomShown && telecom && telecom[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<i class="fa-solid fa-phone" style="color:green"></i></span>`,
-                            })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {telecom.map((feature, index) => {
+                        {telecomShown && telecom && telecom[0] && telecom.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                                 let markerIcon = L.divIcon({
                                     className: 'custom-icon',
@@ -665,20 +629,7 @@ function MapComponent() {
                                     return null;
                                 }
                             })}
-                        </MarkerClusterGroup>}
-                        {eauShown && eau && eau[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<i class="fa-solid fa-droplet" style="color:blue"></i></span>`,
-                            })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {eau.map((feature, index) => {
+                        {eauShown && eau && eau[0] && eau.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
                                 let markerIcon = L.divIcon({
                                     className: 'custom-icon',
@@ -720,20 +671,7 @@ function MapComponent() {
                                     return null;
                                 }
                             })}
-                        </MarkerClusterGroup>}
-                        {elecShown && elec && elec[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<i class="fa-solid fa-bolt" style="color:red"></i></span>`,
-                            })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {elec.map((feature, index) => {
+                        {elecShown && elec && elec[0] && elec.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
                                 let markerIcon = L.divIcon({
@@ -776,20 +714,7 @@ function MapComponent() {
                                     return null;
                                 }
                             })}
-                        </MarkerClusterGroup>}
-                        {assainissementShown && assainissement && assainissement[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<i class="fa-solid fa-droplet" style="color:brown"></i></span>`,
-                            })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {assainissement.map((feature, index) => {
+                        {assainissementShown && assainissement && assainissement[0] && assainissement.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
                                 let markerIcon = L.divIcon({
@@ -832,20 +757,7 @@ function MapComponent() {
                                     return null;
                                 }
                             })}
-                        </MarkerClusterGroup>}
-                        {gazShown && gaz && gaz[0] && <MarkerClusterGroup iconCreateFunction={(cluster) => {
-                            return new L.divIcon({
-                                className: 'custom-cluster',
-                                html: `<span>${cluster.getChildCount()}<i class="fa-solid fa-fire-flame-curved" style="color:yellow"></i></span>`,
-                            })
-                        }}
-                            maxClusterRadius={50}
-                            zoomToBoundsOnClick={true}
-                            spiderfyOnMaxZoom={true}
-                            removeOutsideVisibleBounds={true}
-                            showCoverageOnHover={false}
-                        >
-                            {gaz.map((feature, index) => {
+                        {gazShown && gaz && gaz[0] && gaz.map((feature, index) => {
                                 var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
                                 let markerIcon = L.divIcon({
@@ -888,7 +800,6 @@ function MapComponent() {
                                     return null;
                                 }
                             })}
-                        </MarkerClusterGroup>}
                         <Legend arrondissements={geojson} />
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
