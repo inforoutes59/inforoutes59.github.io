@@ -31,6 +31,7 @@ function MapComponent() {
     const [gazShown, setGazShown] = useState(true);
     const [assainissementShown, setAssainissementShown] = useState(true);
     const [zoom, setZoom] = useState(9);
+    
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-');
         const day = dateParts[2];
