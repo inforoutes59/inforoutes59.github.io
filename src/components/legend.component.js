@@ -29,8 +29,8 @@ function Legend({arrondissements}) {
                 <div id="avesnes" class="arrondissement" style="cursor: pointer;"><span style="background-color: #ebd834; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Avesnes</div>
                 <div id="cambrai" class="arrondissement" style="cursor: pointer;"><span style="background-color: #34eb71; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Cambrai</div>
                 <div id="douai" class="arrondissement" style="cursor: pointer;"><span style="background-color: #eb34e8; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Douai</div>
-                <div id="dunkerque" class="arrondissement" style="cursor: pointer;"><span style="background-color: #eb3434; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Dunkerque</div>
-                <div id="valenciennes" class="arrondissement" style="cursor: pointer;"><span style="background-color: #345eeb; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Valenciennes</div>
+                <div id="dunkerque" class="arrondissement" style="cursor: pointer;"><span style="background-color: #345eeb; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Dunkerque</div>
+                <div id="valenciennes" class="arrondissement" style="cursor: pointer;"><span style="background-color: #eb3434; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>Valenciennes</div>
                 <div id="mel" class="arrondissement" style="cursor: pointer;"><span style="background-color: grey; width: 2em; height: 2em; display: inline-block; margin-right: 0.5em;"></span>MEL</div>
             `;
     

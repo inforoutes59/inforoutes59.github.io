@@ -412,7 +412,7 @@ function MapComponent() {
                         ref={mapRef}
                     >
                         {geojson.features.map((feature, index) => {
-                            let colorArrondissement = '#345eeb';
+                            let colorArrondissement = '#eb3434';
                             let zindex = 99
                             if (feature.properties.Name === "ARRONDISSEMENT ROUTIER AVESNES") {
                                 colorArrondissement = '#ebd834';
@@ -421,7 +421,7 @@ function MapComponent() {
                             } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DOUAI") {
                                 colorArrondissement = '#eb34e8';
                             } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DUNKERQUE") {
-                                colorArrondissement = '#eb3434';
+                                colorArrondissement = '#345eeb';
                             } else if (feature.properties.Name === "MEL") {
                                 colorArrondissement = 'grey';
                                 zindex = 98
