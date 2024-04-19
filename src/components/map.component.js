@@ -1,5 +1,5 @@
 import React from 'react';
-import { TileLayer, MapContainer, Marker, Popup } from 'react-leaflet';
+import { TileLayer, MapContainer, Marker, Popup, ZoomControl } from 'react-leaflet';
 import Legend from './legend.component';
 import { GeoJSON } from 'react-leaflet/GeoJSON'
 import geojson from '../departement-59-nord.json';
@@ -410,6 +410,7 @@ function MapComponent() {
                         zoom={zoom}
                         maxZoom={18}
                         ref={mapRef}
+                        zoomControl={false}
                     >
                         {geojson.features.map((feature, index) => {
                             let colorArrondissement = '#eb3434';
@@ -802,6 +803,7 @@ function MapComponent() {
                                 }
                             })}
                         <Legend arrondissements={geojson} />
+                        <ZoomControl position="topright" />
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
                             attribution='<a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> contributors'
