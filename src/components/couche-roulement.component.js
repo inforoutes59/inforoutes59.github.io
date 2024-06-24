@@ -116,10 +116,10 @@ function CoucheRoulementComponent() {
                 popupContent += `<strong>Note globale:</strong> ${feature.properties.notation_note_globale}<br>`;
             }
             if (feature.properties.notation_note_surface) {
-                popupContent += `<strong>Note:</strong> ${feature.properties.notation_note_surface}<br>`;
+                popupContent += `<strong>Note de surface:</strong> ${feature.properties.notation_note_surface}<br>`;
             }
             if (feature.properties.notation_note_structure) {
-                popupContent += `<strong>Note:</strong> ${feature.properties.notation_note_structure}<br>`;
+                popupContent += `<strong>Note de structure:</strong> ${feature.properties.notation_note_structure}<br>`;
             }
             if (feature.properties.notation_indicateur) {
                 popupContent += `<strong>Etat:</strong> ${feature.properties.notation_indicateur}<br>`;
@@ -180,7 +180,7 @@ function CoucheRoulementComponent() {
         }
         return {
             color: color,
-            weight: 3,
+            weight: 10,
         };
     };
 
