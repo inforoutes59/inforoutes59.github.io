@@ -178,8 +178,6 @@ function CoucheRoulementComponent() {
     const getFeatureStyle = (feature) => {
         const status = feature.properties.notation_2023_indicateur;
         let color;
-        console.log(feature)
-        console.log(status)
 
         switch (status) {
             case 'Excellent':
