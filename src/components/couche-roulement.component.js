@@ -37,8 +37,7 @@ function CoucheRoulementComponent() {
     useEffect(() => {
         getCoucheRoulement()
             .then((response) => {
-                setCouche(response.data);
-                console.log(response)
+                setCouche(response);
             })
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -188,7 +187,7 @@ function CoucheRoulementComponent() {
                 <button onClick={handleButtonClick} className="button-change-page">Module arrêtés de circulation</button>
             </div>
             <div className="row">
-                <div className={isNavOpen ? 'col-6' : 'col-12'}>
+                <div className={'col-12'}>
                     <MapContainer
                         center={location}
                         zoom={9}
