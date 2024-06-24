@@ -32,6 +32,12 @@ function MapComponent() {
     const [assainissementShown, setAssainissementShown] = useState(true);
     const [zoom, setZoom] = useState(9);
     
+    const navigate = useNavigate();
+
+    const handleButtonClick = () => {
+        navigate('/couche');
+    };
+
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-');
         const day = dateParts[2];
@@ -397,9 +403,10 @@ function MapComponent() {
                     <div className='bar'></div>
                 </div>
                 <form onSubmit={handleSearch} className="col-11" id="search-bar">
-                    <input id="search-input" type="text" name="search" placeholder="Ville, RD ..." />
+                    <input id="search-input" type="text" name="city" placeholder="Ville" />
                     <button type="submit">Rechercher</button>
                 </form>
+                <button onClick={handleButtonClick} className="button-change-page">Module couches de roulement</button>
             </div>
             <div className="row">
                 <FilterComponent onFilterChange={handleFilterChange} isOpen={isNavOpen} />
