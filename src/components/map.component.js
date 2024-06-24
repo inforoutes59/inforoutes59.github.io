@@ -9,6 +9,7 @@ import rdData from '../rd.json';
 import { useEffect, useState, useRef } from 'react';
 import { searchCity, getInterruptions, getRestrictions, getTelecom, getAssainissement, getEau, getElec, getGaz } from '../controllers/geocoding.controller';
 import FilterComponent from './filter.component';
+import { useNavigate } from 'react-router-dom';
 
 function MapComponent() {
     const [isNavOpen, setIsNavOpen] = useState(false);
