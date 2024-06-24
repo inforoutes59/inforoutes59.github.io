@@ -4,7 +4,7 @@ import { GeoJSON } from 'react-leaflet/GeoJSON'
 import geojson from '../departement-59-nord.json';
 import L, { popup } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
-import { searchCity, getCoucheRoulementDK, getCoucheRoulementDO,getCoucheRoulementCA,getCoucheRoulementAV,getCoucheRoulementVA } from '../controllers/geocoding.controller';
+import { searchCity, getCoucheRoulement } from '../controllers/geocoding.controller';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -14,13 +14,16 @@ function CoucheRoulementComponent() {
     const [geolocDetect, setGeolocDetect] = useState(false)
     const mapRef = useRef(null);
     let highlightedDeviationLayer = null;
-    const [coucheDK, setCoucheDK] = useState([]);
-    const [coucheDO, setCoucheDO] = useState([]);
-    const [coucheCA, setCoucheCA] = useState([]);
-    const [coucheAV, setCoucheAV] = useState([]);
-    const [coucheVA, setCoucheVA] = useState([]);
+    const [couche, setCouche] = useState([]);
     const [cityCoords, setCityCoords] = useState({});
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (couche && couche.length > 0) {
+            setIsLoading(false);
+        }
+    }, [couche]);
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-'); // Sépare les parties de la date
         const day = dateParts[2];
@@ -40,37 +43,9 @@ function CoucheRoulementComponent() {
     };
 
     useEffect(() => {
-        getCoucheRoulementDK()
+        getCoucheRoulement()
             .then((response) => {
-                setCoucheDK(response);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la récupération des données GeoJSON :', error);
-            });
-            getCoucheRoulementDO()
-            .then((response) => {
-                setCoucheDO(response);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la récupération des données GeoJSON :', error);
-            });
-            getCoucheRoulementCA()
-            .then((response) => {
-                setCoucheCA(response);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la récupération des données GeoJSON :', error);
-            });
-            getCoucheRoulementAV()
-            .then((response) => {
-                setCoucheAV(response);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la récupération des données GeoJSON :', error);
-            });
-            getCoucheRoulementVA()
-            .then((response) => {
-                setCoucheVA(response);
+                setCouche(response);
             })
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
@@ -137,11 +112,17 @@ function CoucheRoulementComponent() {
             if (feature.properties.couche_de_surface_granulometrie) {
                 popupContent += `<strong>Granulométrie:</strong> ${feature.properties.couche_de_surface_granulometrie}<br>`;
             }
-            if (feature.properties.notation_2023_note_surface) {
-                popupContent += `<strong>Note:</strong> ${feature.properties.notation_2023_note_surface}<br>`;
+            if (feature.properties.notation_note_globale) {
+                popupContent += `<strong>Note globale:</strong> ${feature.properties.notation_note_globale}<br>`;
             }
-            if (feature.properties.notation_2023_indicateur) {
-                popupContent += `<strong>Etat:</strong> ${feature.properties.notation_2023_indicateur}<br>`;
+            if (feature.properties.notation_note_surface) {
+                popupContent += `<strong>Note:</strong> ${feature.properties.notation_note_surface}<br>`;
+            }
+            if (feature.properties.notation_note_structure) {
+                popupContent += `<strong>Note:</strong> ${feature.properties.notation_note_structure}<br>`;
+            }
+            if (feature.properties.notation_indicateur) {
+                popupContent += `<strong>Etat:</strong> ${feature.properties.notation_indicateur}<br>`;
             }
             if (feature.properties.couche_de_surface_presence_d_amiante) {
                 popupContent += `<strong>Présence d'amiante:</strong> ${feature.properties.couche_de_surface_presence_d_amiante}<br>`;
@@ -176,9 +157,8 @@ function CoucheRoulementComponent() {
     }
 
     const getFeatureStyle = (feature) => {
-        const status = feature.properties.notation_2023_indicateur;
+        const status = feature.properties.notation_indicateur;
         let color;
-
         switch (status) {
             case 'Excellent':
                 color = '#00ff00';
@@ -247,78 +227,9 @@ function CoucheRoulementComponent() {
                         >
                             <Popup>Vous êtes ici</Popup>
                         </Marker>)}
-                        {
-                            coucheDK && coucheDK[0] && (
+                        {couche && couche[0] && (
                                 <GeoJSON
-                                    data={coucheDK[0].features.filter((feature) => {
-                                        return feature.geometry && feature.geometry.type === "MultiLineString";
-                                    })}
-                                    style={getFeatureStyle}
-                                    onEachFeature={(feature, layer) => {
-                                        layer.on({
-                                            click: () => {
-                                                handleFeatureClick(feature, mapRef.current);
-                                            },
-                                        });
-                                    }}
-                                />
-                            )
-                        }
-                        {
-                            coucheDO && coucheDO[0] && (
-                                <GeoJSON
-                                    data={coucheDO[0].features.filter((feature) => {
-                                        return feature.geometry && feature.geometry.type === "MultiLineString";
-                                    })}
-                                    style={getFeatureStyle}
-                                    onEachFeature={(feature, layer) => {
-                                        layer.on({
-                                            click: () => {
-                                                handleFeatureClick(feature, mapRef.current);
-                                            },
-                                        });
-                                    }}
-                                />
-                            )
-                        }
-                        {
-                            coucheCA && coucheCA[0] && (
-                                <GeoJSON
-                                    data={coucheCA[0].features.filter((feature) => {
-                                        return feature.geometry && feature.geometry.type === "MultiLineString";
-                                    })}
-                                    style={getFeatureStyle}
-                                    onEachFeature={(feature, layer) => {
-                                        layer.on({
-                                            click: () => {
-                                                handleFeatureClick(feature, mapRef.current);
-                                            },
-                                        });
-                                    }}
-                                />
-                            )
-                        }
-                        {
-                            coucheAV && coucheAV[0] && (
-                                <GeoJSON
-                                    data={coucheAV[0].features.filter((feature) => {
-                                        return feature.geometry && feature.geometry.type === "MultiLineString";
-                                    })}
-                                    style={getFeatureStyle}
-                                    onEachFeature={(feature, layer) => {
-                                        layer.on({
-                                            click: () => {
-                                                handleFeatureClick(feature, mapRef.current);
-                                            },
-                                        });
-                                    }}
-                                />
-                            )
-                        }
-                        {
-                            coucheVA && coucheVA[0] && (
-                                <GeoJSON
-                                    data={coucheVA[0].features.filter((feature) => {
+                                    data={couche[0].features.filter((feature) => {
                                         return feature.geometry && feature.geometry.type === "MultiLineString";
                                     })}
                                     style={getFeatureStyle}

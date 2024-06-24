@@ -104,60 +104,8 @@ export async function getGaz(){
         });
 }
 
-export async function getCoucheRoulementDK(){
-    const fileId = '1mva7sE-CT385WkxogeUvSEW3TnMfdu-_'
-    const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
-    //const apiUrl = 'http://localhost:3001/couche-roulement'
-    return axios.get(apiUrl)
-        .then((response) => {
-            //return response;
-            return response.data;
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la récupération des données GeoJSON :', error);
-        });
-}
-export async function getCoucheRoulementDO(){
-    const fileId = '1s19LpHFGPB42Yd6f96F4YGrabI2iQxaS'
-    const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
-    //const apiUrl = 'http://localhost:3001/couche-roulement'
-    return axios.get(apiUrl)
-        .then((response) => {
-            //return response;
-            return response.data;
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la récupération des données GeoJSON :', error);
-        });
-}
-export async function getCoucheRoulementCA(){
-    const fileId = '1zBBG4Pv662t218U2ALA5c0Rj8H3eGAu1'
-    const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
-    //const apiUrl = 'http://localhost:3001/couche-roulement'
-    return axios.get(apiUrl)
-        .then((response) => {
-            //return response;
-            return response.data;
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la récupération des données GeoJSON :', error);
-        });
-}
-export async function getCoucheRoulementAV(){
-    const fileId = '1PgkiZKiCaTb5QcvlaZHwLrnJeByLl3Gb'
-    const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
-    //const apiUrl = 'http://localhost:3001/couche-roulement'
-    return axios.get(apiUrl)
-        .then((response) => {
-            //return response;
-            return response.data;
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la récupération des données GeoJSON :', error);
-        });
-}
-export async function getCoucheRoulementVA(){
-    const fileId = '1eYFeUkSwbIeUg9n3Vhz6aG6Oo4yIfK-G'
+export async function getCoucheRoulement(){
+    const fileId = '1WKyPYgkSukipehHPxIsgke0MSmC3FVoI'
     const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
     //const apiUrl = 'http://localhost:3001/couche-roulement'
     return axios.get(apiUrl)
