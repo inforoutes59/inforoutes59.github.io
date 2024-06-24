@@ -111,7 +111,7 @@ export async function getCoucheRoulement(){
     return axios.get(apiUrl)
         .then((response) => {
             //return response;
-            return JSON.parse(response.data);
+            return response.data;
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
