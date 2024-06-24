@@ -6,7 +6,8 @@ import L, { popup } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
 import { searchCity, getCoucheRoulement } from '../controllers/geocoding.controller';
 import { useNavigate } from 'react-router-dom';
-
+import communes from '../communes.json';
+import rdData from '../rd.json';
 
 function CoucheRoulementComponent() {
     const [isNavOpen, setIsNavOpen] = useState(false);
@@ -59,15 +60,93 @@ function CoucheRoulementComponent() {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        const cityName = e.target.elements.city.value;
-        searchCity(cityName)
-            .then((coords) => {
-                setCityCoords(coords);
-                mapRef.current.setView(coords, 12);
-            })
-            .catch((error) => {
-                console.error(error.message);
+        if (highlightedDeviationLayer) {
+            mapRef.current.removeLayer(highlightedDeviationLayer);
+            highlightedDeviationLayer = null;
+        }
+        const searchValue = document.querySelector('#search-input').value;
+        const regexNumber = /\d/;
+        if (regexNumber.test(searchValue)) {
+            let searchNum = searchValue;
+            if (searchNum.length < 4 && !searchValue.includes('.') && !searchValue.includes(' ') && !searchValue.includes('G')) {
+                searchNum = searchValue.replace(/\D/g, '');
+                searchNum = searchNum.padStart(4, '0');
+            } else {
+                if (searchValue.includes('.')) {
+                    searchNum = searchValue.replace(/A-Za-z/g, '');
+                    searchNum = searchValue.split('.')[0];
+                    if (searchNum.length < 4) {
+                        searchNum = searchNum.padStart(4, '0');
+                    }
+                    if (searchValue.split('.')[1].length < 2) {
+                        searchNum = `${searchNum}.${searchValue.split('.')[1].padStart(2, '0')}`
+                    } else {
+                        searchNum = `${searchNum}.${searchValue.split('.')[1]}`
+                    }
+                } else if (searchValue.includes(' ')) {
+                    searchNum = searchValue.replace(/A-Za-z/g, '');
+                    searchNum = searchValue.split(' ')[0];
+                    if (searchNum.length < 4) {
+                        searchNum = searchNum.padStart(4, '0');
+                    }
+                    searchNum = `${searchNum} ${searchValue.split(' ')[1]}`
+                } else if (searchValue.includes('G')) {
+                    searchNum = searchValue.replace('RD', '');
+                    searchNum = searchValue.split('G')[0];
+                    console.log(searchNum);
+                    if (searchNum.length < 4) {
+                        searchNum = searchNum.padStart(4, '0');
+                    }
+                    searchNum = `${searchNum} G`
+                }
+            }
+            searchNum = `RD${searchNum}`
+            rdData.features.forEach((feature) => {
+                if (feature.properties.designation.toLowerCase() === searchNum.toLowerCase()) {
+                    const bounds = L.geoJSON(feature).getBounds();
+                    mapRef.current.fitBounds(bounds);
+                    const geometryRD = feature.geometry;
+                    const rdLayer = L.geoJSON(geometryRD, {
+                        style: {
+                            color: 'blue',
+                            weight: 7,
+                        },
+                    });
+                    rdLayer.addTo(mapRef.current);
+                    highlightedDeviationLayer = rdLayer;
+                }
             });
+        } else {
+            searchCity(searchValue)
+                .then((city) => {
+                    communes.features.forEach((feature) => {
+                        if (feature.properties.name.toLowerCase() === city.name.toLowerCase()) {
+                            const bounds = L.geoJSON(feature).getBounds();
+                            mapRef.current.fitBounds(bounds);
+                            const geometryCommune = feature.geometry;
+                            const communeLayer = L.geoJSON(geometryCommune, {
+                                style: {
+                                    color: 'blue',
+                                    weight: 7,
+                                },
+                            });
+                            communeLayer.addTo(mapRef.current);
+                            highlightedDeviationLayer = communeLayer;
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
+        }
+        mapRef.current.on('click', function (event) {
+            if (highlightedDeviationLayer) {
+                mapRef.current.removeLayer(highlightedDeviationLayer);
+                highlightedDeviationLayer = null;
+                document.getElementById('search-input').value = '';
+            }
+        }
+        );
     };
 
     const handleFeatureClick = (feature, map) => {

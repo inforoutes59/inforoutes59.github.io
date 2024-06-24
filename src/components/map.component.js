@@ -114,7 +114,7 @@ function MapComponent() {
             mapRef.current.removeLayer(highlightedDeviationLayer);
             highlightedDeviationLayer = null;
         }
-        const searchValue = e.target.elements.search.value;
+        const searchValue = document.querySelector('#search-input').value;
         const regexNumber = /\d/;
         if (regexNumber.test(searchValue)) {
             let searchNum = searchValue;
