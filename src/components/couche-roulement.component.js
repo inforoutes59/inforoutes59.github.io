@@ -16,6 +16,14 @@ function CoucheRoulementComponent() {
     let highlightedDeviationLayer = null;
     const [couche, setCouche] = useState([]);
     const [cityCoords, setCityCoords] = useState({});
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (couche && couche.length > 0) {
+            setIsLoading(false);
+        }
+    }, [couche]);
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-'); // Sépare les parties de la date
         const day = dateParts[2];
@@ -107,7 +115,7 @@ function CoucheRoulementComponent() {
             if (feature.properties.notation_2023_note_surface) {
                 popupContent += `<strong>Note:</strong> ${feature.properties.notation_2023_note_surface}<br>`;
             }
-            if(feature.properties.notation_2023_indicateur){
+            if (feature.properties.notation_2023_indicateur) {
                 popupContent += `<strong>Etat:</strong> ${feature.properties.notation_2023_indicateur}<br>`;
             }
             if (feature.properties.couche_de_surface_presence_d_amiante) {
@@ -145,31 +153,31 @@ function CoucheRoulementComponent() {
     const getFeatureStyle = (feature) => {
         const status = feature.properties.notation_2023_indicateur;
         let color;
-    
+
         switch (status) {
             case 'Excellent':
-              color = '#00ff00';
-              break;
+                color = '#00ff00';
+                break;
             case 'Bon':
-              color = '#80ff00';
-              break;
+                color = '#80ff00';
+                break;
             case 'Moyen':
-              color = '#ffff00';
-              break;
+                color = '#ffff00';
+                break;
             case 'Mauvais':
-              color = '#ff8000';
-              break;
+                color = '#ff8000';
+                break;
             case 'Détérioré':
-              color = '#ff0000';
-              break;
+                color = '#ff0000';
+                break;
             default:
-              color = 'gray';
-          }
+                color = 'gray';
+        }
         return {
-          color: color,
-          weight: 3,
+            color: color,
+            weight: 3,
         };
-      };
+    };
 
 
     return (
@@ -214,18 +222,24 @@ function CoucheRoulementComponent() {
                         >
                             <Popup>Vous êtes ici</Popup>
                         </Marker>)}
-                        {couche && couche[0] &&(
-                            <GeoJSON
-                                data={couche[0].features.filter((feature) => { return feature.geometry && feature.geometry.type === "MultiLineString" })}
-                                style={(feature)=>{getFeatureStyle(feature)}}
-                                onEachFeature={(feature, layer) => {
-                                    layer.on({
-                                        click: () => {
-                                            handleFeatureClick(feature, mapRef.current);
-                                        },
-                                    });
-                                }}
-                            />
+                        {isLoading ? (
+                            <div>Loading...</div> // Indicatif de chargement
+                        ) : (
+                            couche && couche[0] && (
+                                <GeoJSON
+                                    data={couche[0].features.filter((feature) => {
+                                        return feature.geometry && feature.geometry.type === "MultiLineString";
+                                    })}
+                                    style={getFeatureStyle}
+                                    onEachFeature={(feature, layer) => {
+                                        layer.on({
+                                            click: () => {
+                                                handleFeatureClick(feature, mapRef.current);
+                                            },
+                                        });
+                                    }}
+                                />
+                            )
                         )}
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
