@@ -87,7 +87,11 @@
 
 #navbar{
   width : 100%;
-  white-space: nowrap; 
+  white-space: nowrap;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
 }
 
 #type-intervention{
@@ -100,7 +104,7 @@
   justify-content: center; /* Pour centrer les éléments horizontalement */
   margin-top: 6px; /* Marge en haut */
   margin-bottom: 6px;
-  width : 80%;
+  width : 50%;
 }
 
 #search-input {
@@ -128,4 +132,17 @@ button[type="submit"]:hover {
 .interruption{
   color: red;
   font-weight : 3;
+}
+
+.button-change-page{
+  padding: 10px 20px; /* Remplissage intérieur */
+  background-color: #007bff; /* Couleur de fond bleue */
+  color: #fff; /* Couleur du texte blanc */
+  border: none; /* Pas de bordure */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur de type pointer */
+  transition: background-color 0.3s ease; /* Transition de couleur de fond */
+  width: fit-content;
+  height: 50px;
+  margin: 6px 0 6px 0;
 }

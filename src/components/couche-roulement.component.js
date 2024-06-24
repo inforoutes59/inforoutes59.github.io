@@ -37,8 +37,7 @@ function CoucheRoulementComponent() {
     useEffect(() => {
         getCoucheRoulement()
             .then((response) => {
-                setCouche(JSON.parse(response.data));
-                console.log(JSON.parse(response.data))
+                setCouche(response.data);
             })
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
