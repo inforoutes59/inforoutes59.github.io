@@ -217,7 +217,7 @@ function CoucheRoulementComponent() {
                         {couche && couche[0] &&(
                             <GeoJSON
                                 data={couche[0].features.filter((feature) => { return feature.geometry && feature.geometry.type === "MultiLineString" })}
-                                style={getFeatureStyle}
+                                style={(feature)=>{getFeatureStyle(feature)}}
                                 onEachFeature={(feature, layer) => {
                                     layer.on({
                                         click: () => {
