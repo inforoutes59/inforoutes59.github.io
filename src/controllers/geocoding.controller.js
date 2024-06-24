@@ -103,3 +103,17 @@ export async function getGaz(){
             console.error('Erreur lors de la récupération des données GeoJSON :', error);
         });
 }
+
+export async function getCoucheRoulement(){
+    const fileId = '1w_vgF4pyf4X4DareBeXXAPHvxOi47zqs'
+    const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+    //const apiUrl = 'http://localhost:3001/couche-roulement'
+    return axios.get(apiUrl)
+        .then((response) => {
+            //return response;
+            return JSON.parse(response.data);
+        })
+        .catch((error) => {
+            console.error('Erreur lors de la récupération des données GeoJSON :', error);
+        });
+}

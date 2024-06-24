@@ -3,7 +3,12 @@ import MapComponent from './components/map.component';
 
 function App() {
   return (
-    <MapComponent />
+    <Router>
+      <Routes>
+        <Route path="/" element={<MapComponent />} />
+        <Route path="/couche" element={<CoucheRoulementComponent />} />
+      </Routes>
+    </Router>
   );
 }
 
