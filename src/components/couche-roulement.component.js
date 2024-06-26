@@ -175,7 +175,7 @@ function CoucheRoulementComponent() {
                 popupContent += `<strong>Epaisseur:</strong> ${feature.properties.couche_de_surface_epaisseur_cm} cm<br>`;
             }
             if (feature.properties.couche_de_surface_date_couche) {
-                popupContent += `<strong>Date de la couche</strong> ${formatDate(feature.properties.couche_de_surface_date_couche)}<br>`;
+                popupContent += `<strong>Date de la couche:</strong> ${formatDate(feature.properties.couche_de_surface_date_couche)}<br>`;
             }
             if (feature.properties.couche_de_surface_granulat) {
                 popupContent += `<strong>Granulat:</strong> ${feature.properties.couche_de_surface_granulat}<br>`;

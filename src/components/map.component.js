@@ -403,11 +403,11 @@ function MapComponent() {
                     <div className='bar'></div>
                     <div className='bar'></div>
                 </div>
-                <form onSubmit={handleSearch} className="col-11" id="search-bar">
+                <form onSubmit={handleSearch} className="col-6" id="search-bar">
                     <input id="search-input" type="text" name="city" placeholder="Ville" />
                     <button type="submit">Rechercher</button>
                 </form>
-                <button onClick={handleButtonClick} className="button-change-page">Module couches de roulement</button>
+                <button onClick={handleButtonClick} className="button-change-page col-5">Module couches de roulement</button>
             </div>
             <div className="row">
                 <FilterComponent onFilterChange={handleFilterChange} isOpen={isNavOpen} />
