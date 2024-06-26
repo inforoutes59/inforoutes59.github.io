@@ -8,23 +8,18 @@ import { searchCity, getCoucheRoulement } from '../controllers/geocoding.control
 import { useNavigate } from 'react-router-dom';
 import communes from '../communes.json';
 import rdData from '../rd.json';
+import Legend from './legend.component';
+import { ZoomControl } from 'react-leaflet';
+
 
 function CoucheRoulementComponent() {
-    const [isNavOpen, setIsNavOpen] = useState(false);
     const [location, setLocation] = useState([50.62925, 3.057256]);
     const [geolocDetect, setGeolocDetect] = useState(false)
     const mapRef = useRef(null);
     let highlightedDeviationLayer = null;
     const [couche, setCouche] = useState([]);
-    const [cityCoords, setCityCoords] = useState({});
 
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if (couche && couche.length > 0) {
-            setIsLoading(false);
-        }
-    }, [couche]);
     function formatDate(inputDate) {
         const dateParts = inputDate.split('+')[0].split('-'); // Sépare les parties de la date
         const day = dateParts[2];
@@ -39,9 +34,6 @@ function CoucheRoulementComponent() {
         navigate('/');
     };
 
-    const toggleNav = () => {
-        setIsNavOpen(!isNavOpen);
-    };
 
     useEffect(() => {
         getCoucheRoulement()
@@ -51,11 +43,11 @@ function CoucheRoulementComponent() {
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
             });
-        // if(navigator.geolocation){
-        //     navigator.geolocation.getCurrentPosition(success, error);
-        // } else {
-        //     console.log("Geolocation is not supported by this browser");
-        // }
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            console.log("Geolocation is not supported by this browser");
+        }
     }, []);
 
     const handleSearch = (e) => {
@@ -209,6 +201,12 @@ function CoucheRoulementComponent() {
             if (feature.properties.couche_de_surface_presence_d_hap) {
                 popupContent += `<strong>Présence d'HAP:</strong> ${feature.properties.couche_de_surface_presence_d_hap}<br>`;
             }
+            if(feature.properties.suivi_des_operations_echeance){
+                popupContent += `<strong>Echéance:</strong> ${feature.properties.suivi_des_operations_echeance}<br>`;
+            }
+            if(feature.properties.suivi_des_operations_proposition_travaux){
+                popupContent += `<strong>Proposition de travaux:</strong> ${feature.properties.suivi_des_operations_proposition_travaux}<br>`;
+            }
             popupContent += '</div>';
             let latLng = feature.geometry.coordinates[0][lengthCoord] !== undefined ? [feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]] : [feature.geometry.coordinates[1], feature.geometry.coordinates[0]]
             L.popup()
@@ -267,11 +265,6 @@ function CoucheRoulementComponent() {
     return (
         <div className='container-fluid'>
             <div className='row' id="navbar">
-                <div className={`burger-icon col-1 ${isNavOpen ? 'open' : ''}`} onClick={toggleNav}>
-                    <div className='bar'></div>
-                    <div className='bar'></div>
-                    <div className='bar'></div>
-                </div>
                 <form onSubmit={handleSearch} className="col-11" id="search-bar">
                     <input id="search-input" type="text" name="city" placeholder="Ville" />
                     <button type="submit">Rechercher</button>
@@ -286,17 +279,34 @@ function CoucheRoulementComponent() {
                         maxZoom={18}
                         ref={mapRef}
                     >
-                        <GeoJSON
-                            data={geojson}
-                            style={(feature) => {
-                                return {
+                        {geojson.features.map((feature, index) => {
+                            let colorArrondissement = '#eb3434';
+                            let zindex = 99
+                            if (feature.properties.Name === "ARRONDISSEMENT ROUTIER AVESNES") {
+                                colorArrondissement = '#ebd834';
+                            } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER CAMBRAI") {
+                                colorArrondissement = '#34eb71';
+                            } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DOUAI") {
+                                colorArrondissement = '#eb34e8';
+                            } else if (feature.properties.Name === "ARRONDISSEMENT ROUTIER DUNKERQUE") {
+                                colorArrondissement = '#345eeb';
+                            } else if (feature.properties.Name === "MEL") {
+                                colorArrondissement = 'grey';
+                                zindex = 98
+                            }
+                            return (<GeoJSON
+                                data={feature}
+                                style={{
                                     fillColor: 'transparent',
-                                    color: '#00A9CE',
+                                    fillRule: 'nonzero',
+                                    color: colorArrondissement,
                                     weight: 2,
-                                    fillOpacity: 0.6
-                                };
-                            }}
-                        />
+                                    fillOpacity: 0.6,
+                                    zIndex: zindex
+                                }}
+                            />)
+                        })
+                        }
                         {geolocDetect && (<Marker
                             position={location}
                             icon={L.divIcon({
@@ -322,6 +332,8 @@ function CoucheRoulementComponent() {
                                 />
                             )
                         }
+                        <Legend arrondissements={geojson} />
+                        <ZoomControl position="topright" />
                         <TileLayer
                             url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png"
                             attribution='<a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> contributors'
