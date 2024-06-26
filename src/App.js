@@ -2,7 +2,6 @@ import './App.css';
 import MapComponent from './components/map.component';
 import CoucheRoulementComponent from './components/couche-roulement.component';
 import { HashRouter , Routes, Route } from 'react-router-dom';
-import { createBrowserHistory } from "history";
 
 function App() {
 

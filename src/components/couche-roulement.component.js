@@ -183,13 +183,13 @@ function CoucheRoulementComponent() {
             if (feature.properties.couche_de_surface_granulometrie) {
                 popupContent += `<strong>Granulométrie:</strong> ${feature.properties.couche_de_surface_granulometrie}<br>`;
             }
-            if (feature.properties.notation_note_globale) {
+            if (feature.properties.notation_note_globale !== null) {
                 popupContent += `<strong>Note globale:</strong> ${feature.properties.notation_note_globale}<br>`;
             }
-            if (feature.properties.notation_note_surface) {
+            if (feature.properties.notation_note_surface !== null) {
                 popupContent += `<strong>Note de surface:</strong> ${feature.properties.notation_note_surface}<br>`;
             }
-            if (feature.properties.notation_note_structure) {
+            if (feature.properties.notation_note_structure !== null) {
                 popupContent += `<strong>Note de structure:</strong> ${feature.properties.notation_note_structure}<br>`;
             }
             if (feature.properties.notation_indicateur) {
