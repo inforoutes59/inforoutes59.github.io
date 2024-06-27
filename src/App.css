@@ -87,6 +87,7 @@
 
 #navbar{
   width : 100%;
+  max-width: 100%;
   white-space: nowrap;
   text-align: center;
   display: flex;
@@ -104,11 +105,11 @@
   justify-content: center; /* Pour centrer les éléments horizontalement */
   margin-top: 6px; /* Marge en haut */
   margin-bottom: 6px;
-  width : 80%;
+  width : 50%;
 }
 
 #search-input {
-  padding: 6px; /* Remplissage intérieur */
+  padding: 5px; /* Remplissage intérieur */
   border: 1px solid #ccc; /* Bordure grise */
   border-radius: 5px; /* Coins arrondis */
   width: 50%; /* Largeur */
@@ -116,13 +117,14 @@
 }
 
 button[type="submit"] {
-  padding: 10px 20px; /* Remplissage intérieur */
+  padding: 5px 10px; /* Remplissage intérieur */
   background-color: #007bff; /* Couleur de fond bleue */
   color: #fff; /* Couleur du texte blanc */
   border: none; /* Pas de bordure */
   border-radius: 5px; /* Coins arrondis */
   cursor: pointer; /* Curseur de type pointer */
   transition: background-color 0.3s ease; /* Transition de couleur de fond */
+  font-size: 0.8rem;
 }
 
 button[type="submit"]:hover {
@@ -135,7 +137,7 @@ button[type="submit"]:hover {
 }
 
 .button-change-page{
-  padding: 10px 20px; /* Remplissage intérieur */
+  padding: 5px 10px; /* Remplissage intérieur */
   background-color: #007bff; /* Couleur de fond bleue */
   color: #fff; /* Couleur du texte blanc */
   border: none; /* Pas de bordure */
@@ -144,6 +146,16 @@ button[type="submit"]:hover {
   transition: background-color 0.3s ease; /* Transition de couleur de fond */
   width: fit-content;
   height: fit-content;
-  margin: 6px 0 6px 0;
-  font-size: 1rem;
+  margin: 6px 0 6px 10px;
+  font-size: 0.8rem;
+}
+
+#comm-input{
+  width: 80%;
+  height: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
 }

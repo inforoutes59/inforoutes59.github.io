@@ -10,14 +10,17 @@ import communes from '../communes.json';
 import rdData from '../rd.json';
 import Legend from './legend.component';
 import { ZoomControl } from 'react-leaflet';
-
+import { saveAs } from 'file-saver';
 
 function CoucheRoulementComponent() {
     const [location, setLocation] = useState([50.62925, 3.057256]);
-    const [geolocDetect, setGeolocDetect] = useState(false)
+    const [geolocDetect, setGeolocDetect] = useState(false);
     const mapRef = useRef(null);
     let highlightedDeviationLayer = null;
     const [couche, setCouche] = useState([]);
+    let featuresWithComments = useRef([]);
+    const selectedFeatureRef = useRef(null);
+    const [isFeatureClicked, setIsFeatureClicked] = useState(false);
 
 
     function formatDate(inputDate) {
@@ -38,6 +41,7 @@ function CoucheRoulementComponent() {
     useEffect(() => {
         getCoucheRoulement()
             .then((response) => {
+                //setCouche(JSON.parse(response.data))
                 setCouche(response);
             })
             .catch((error) => {
@@ -155,6 +159,8 @@ function CoucheRoulementComponent() {
             });
             highlightedDeviationLayer = deviationLayer;
             const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
+            selectedFeatureRef.current = feature;
+            setIsFeatureClicked(true);
             let popupContent = '<div>';
             if (feature.properties.voie_designation) {
                 popupContent += `<strong>Voie:</strong> ${feature.properties.voie_designation}<br>`;
@@ -213,13 +219,51 @@ function CoucheRoulementComponent() {
                 .setLatLng(latLng)
                 .setContent(popupContent)
                 .openOn(map);
+
             mapRef.current.on('popupclose', () => {
                 if (highlightedDeviationLayer) {
                     mapRef.current.removeLayer(highlightedDeviationLayer);
                     highlightedDeviationLayer = null;
+                    selectedFeatureRef.current = null;
+                    setIsFeatureClicked(false);
                 }
             });
         }
+    };
+
+    const handleFeatureComment = (e) => {
+        e.preventDefault();
+        const commentaire = document.querySelector('#comm-input').value;
+        if (commentaire) {
+            if(selectedFeatureRef.current !== null){
+                featuresWithComments.current.push({feature: selectedFeatureRef.current, commentaire: commentaire});
+                document.querySelector('#comm-input').value = '';
+            }else{
+                alert('Veuillez sélectionner un élément avant de commenter')
+            }
+        }else{
+            alert('Veuillez saisir un commentaire')
+        }
+    }
+
+    const handleExport = () => {
+        const header = ["Voie", "Plo+Abs",  "Commentaire", "Latitude", "Longitude", "Date du commentaire"];
+        console.log(featuresWithComments);
+        const rows = featuresWithComments.current.map(item => {
+            let feature = item.feature;
+            const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
+            const latLng = feature.geometry.coordinates[0][lengthCoord] !== undefined ? [feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]] : [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+            return [
+            feature.properties.voie_designation || "",
+            feature.properties.ploabscissedebut && feature.properties.ploabscissefin ? `Du PR ${feature.properties.ploabscissedebut} au PR ${feature.properties.ploabscissefin}` : "",
+            item.commentaire || "",
+            latLng[0],
+            latLng[1],
+            new Date().toLocaleDateString()
+        ]});
+        const csvContent = [header, ...rows].map(e => e.join(";")).join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, "commentaires.csv");
     };
 
     const success = (position) => {
@@ -265,12 +309,17 @@ function CoucheRoulementComponent() {
     return (
         <div className='container-fluid'>
             <div className='row' id="navbar">
-                <form onSubmit={handleSearch} className="col-11" id="search-bar">
+                <button onClick={handleExport} className="button-change-page col-4">Exporter vos commentaires</button>
+                <form onSubmit={handleSearch} className="col-4" id="search-bar">
                     <input id="search-input" type="text" name="city" placeholder="Ville" />
                     <button type="submit">Rechercher</button>
                 </form>
-                <button onClick={handleButtonClick} className="button-change-page">Module arrêtés de circulation</button>
+                <button onClick={handleButtonClick} className="button-change-page col-4">Module arrêtés de circulation</button>
             </div>
+            {isFeatureClicked && (<div className='row'>
+                <input id="comm-input" type="text" name="commentaire" className='col-10' placeholder="Votre commentaire" />
+                <button onClick={handleFeatureComment} className='button-change-page col-2'>Ajouter</button>
+            </div>)}
             <div className="row">
                 <div className={'col-12'}>
                     <MapContainer
