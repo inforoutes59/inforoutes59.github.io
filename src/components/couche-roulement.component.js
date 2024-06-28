@@ -17,10 +17,12 @@ function CoucheRoulementComponent() {
     const [geolocDetect, setGeolocDetect] = useState(false);
     const mapRef = useRef(null);
     let highlightedDeviationLayer = null;
+    let marker = null;
     const [couche, setCouche] = useState([]);
     let featuresWithComments = useRef([]);
     const selectedFeatureRef = useRef(null);
     const [isFeatureClicked, setIsFeatureClicked] = useState(false);
+    const coordinatesRef = useRef(null);
 
 
     function formatDate(inputDate) {
@@ -145,11 +147,15 @@ function CoucheRoulementComponent() {
         );
     };
 
-    const handleFeatureClick = (feature, map) => {
+    const handleFeatureClick = (e,feature, map) => {
         if (feature.properties) {
             if (highlightedDeviationLayer) {
                 map.removeLayer(highlightedDeviationLayer);
                 highlightedDeviationLayer = null;
+            }
+            if(marker){
+                map.removeLayer(marker);
+                marker=null;
             }
             const deviationGeometry = feature.geometry;
             const deviationLayer = L.geoJSON(deviationGeometry);
@@ -160,6 +166,15 @@ function CoucheRoulementComponent() {
             highlightedDeviationLayer = deviationLayer;
             const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
             selectedFeatureRef.current = feature;
+            coordinatesRef.current = e.latlng
+            const markLayer = L.marker()
+                .setIcon(L.divIcon({
+                    className: 'custom-icon',
+                    html: `<img src="./images/fantomas.JPG" class="custom-image"/>`,
+                }))
+                .setLatLng(coordinatesRef.current)
+            markLayer.addTo(map);
+            marker = markLayer;
             setIsFeatureClicked(true);
             let popupContent = '<div>';
             if (feature.properties.voie_designation) {
@@ -214,9 +229,9 @@ function CoucheRoulementComponent() {
                 popupContent += `<strong>Proposition de travaux:</strong> ${feature.properties.suivi_des_operations_proposition_travaux}<br>`;
             }
             popupContent += '</div>';
-            let latLng = feature.geometry.coordinates[0][lengthCoord] !== undefined ? [feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]] : [feature.geometry.coordinates[1], feature.geometry.coordinates[0]]
+            //let latLng = feature.geometry.coordinates[0][lengthCoord] !== undefined ? [feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]] : [feature.geometry.coordinates[1], feature.geometry.coordinates[0]]
             L.popup()
-                .setLatLng(latLng)
+                .setLatLng(coordinatesRef.current)
                 .setContent(popupContent)
                 .openOn(map);
 
@@ -224,7 +239,10 @@ function CoucheRoulementComponent() {
                 if (highlightedDeviationLayer) {
                     mapRef.current.removeLayer(highlightedDeviationLayer);
                     highlightedDeviationLayer = null;
+                    mapRef.current.removeLayer(marker);
+                    marker = null;
                     selectedFeatureRef.current = null;
+                    coordinatesRef.current = null;
                     setIsFeatureClicked(false);
                 }
             });
@@ -236,7 +254,7 @@ function CoucheRoulementComponent() {
         const commentaire = document.querySelector('#comm-input').value;
         if (commentaire) {
             if(selectedFeatureRef.current !== null){
-                featuresWithComments.current.push({feature: selectedFeatureRef.current, commentaire: commentaire});
+                featuresWithComments.current.push({feature: selectedFeatureRef.current, commentaire: commentaire, coords: coordinatesRef.current});
                 document.querySelector('#comm-input').value = '';
             }else{
                 alert('Veuillez sélectionner un élément avant de commenter')
@@ -248,17 +266,15 @@ function CoucheRoulementComponent() {
 
     const handleExport = () => {
         const header = ["Voie", "Plo+Abs",  "Commentaire", "Latitude", "Longitude", "Date du commentaire"];
-        console.log(featuresWithComments);
         const rows = featuresWithComments.current.map(item => {
             let feature = item.feature;
-            const lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2);
-            const latLng = feature.geometry.coordinates[0][lengthCoord] !== undefined ? [feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]] : [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+            const latLng = item.coords
             return [
             feature.properties.voie_designation || "",
             feature.properties.ploabscissedebut && feature.properties.ploabscissefin ? `Du PR ${feature.properties.ploabscissedebut} au PR ${feature.properties.ploabscissefin}` : "",
             item.commentaire || "",
-            latLng[0],
-            latLng[1],
+            latLng.lat,
+            latLng.lng,
             new Date().toLocaleDateString()
         ]});
         const csvContent = [header, ...rows].map(e => e.join(";")).join("\n");
@@ -373,8 +389,8 @@ function CoucheRoulementComponent() {
                                     style={getFeatureStyle}
                                     onEachFeature={(feature, layer) => {
                                         layer.on({
-                                            click: () => {
-                                                handleFeatureClick(feature, mapRef.current);
+                                            click: (e) => {
+                                                handleFeatureClick(e,feature, mapRef.current);
                                             },
                                         });
                                     }}

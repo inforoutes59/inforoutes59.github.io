@@ -33,6 +33,10 @@
   font-size: 1.2rem;
 }
 
+.custom-image{
+  width: 25px !important;
+}
+
 .custom-cluster{
   font-size: 1.2rem;
   justify-items: center;
