@@ -49,8 +49,12 @@ function CoucheRoulementComponent() {
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
             });
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(success, error);
+        if (navigator.geolocation) {
+            const watchId = navigator.geolocation.watchPosition(success, error);
+
+            return () => {
+                navigator.geolocation.clearWatch(watchId);
+            };
         } else {
             console.log("Geolocation is not supported by this browser");
         }
@@ -147,15 +151,15 @@ function CoucheRoulementComponent() {
         );
     };
 
-    const handleFeatureClick = (e,feature, map) => {
+    const handleFeatureClick = (e, feature, map) => {
         if (feature.properties) {
             if (highlightedDeviationLayer) {
                 map.removeLayer(highlightedDeviationLayer);
                 highlightedDeviationLayer = null;
             }
-            if(marker){
+            if (marker) {
                 map.removeLayer(marker);
-                marker=null;
+                marker = null;
             }
             const deviationGeometry = feature.geometry;
             const deviationLayer = L.geoJSON(deviationGeometry);
@@ -170,7 +174,7 @@ function CoucheRoulementComponent() {
             const markLayer = L.marker()
                 .setIcon(L.divIcon({
                     className: 'custom-icon',
-                    html: `<img src="./images/fantomas.JPG" class="custom-image"/>`,
+                    html: `<i class="fa-solid fa-thumbtack"></i>`,
                 }))
                 .setLatLng(coordinatesRef.current)
             markLayer.addTo(map);
@@ -222,14 +226,15 @@ function CoucheRoulementComponent() {
             if (feature.properties.couche_de_surface_presence_d_hap) {
                 popupContent += `<strong>Présence d'HAP:</strong> ${feature.properties.couche_de_surface_presence_d_hap}<br>`;
             }
-            if(feature.properties.suivi_des_operations_echeance){
+            if (feature.properties.suivi_des_operations_echeance) {
                 popupContent += `<strong>Echéance:</strong> ${feature.properties.suivi_des_operations_echeance}<br>`;
             }
-            if(feature.properties.suivi_des_operations_proposition_travaux){
+            if (feature.properties.suivi_des_operations_proposition_travaux) {
                 popupContent += `<strong>Proposition de travaux:</strong> ${feature.properties.suivi_des_operations_proposition_travaux}<br>`;
             }
             popupContent += '</div>';
             //let latLng = feature.geometry.coordinates[0][lengthCoord] !== undefined ? [feature.geometry.coordinates[0][lengthCoord][1], feature.geometry.coordinates[0][lengthCoord][0]] : [feature.geometry.coordinates[1], feature.geometry.coordinates[0]]
+
             L.popup()
                 .setLatLng(coordinatesRef.current)
                 .setContent(popupContent)
@@ -253,30 +258,31 @@ function CoucheRoulementComponent() {
         e.preventDefault();
         const commentaire = document.querySelector('#comm-input').value;
         if (commentaire) {
-            if(selectedFeatureRef.current !== null){
-                featuresWithComments.current.push({feature: selectedFeatureRef.current, commentaire: commentaire, coords: coordinatesRef.current});
+            if (selectedFeatureRef.current !== null) {
+                featuresWithComments.current.push({ feature: selectedFeatureRef.current, commentaire: commentaire, coords: coordinatesRef.current });
                 document.querySelector('#comm-input').value = '';
-            }else{
+            } else {
                 alert('Veuillez sélectionner un élément avant de commenter')
             }
-        }else{
+        } else {
             alert('Veuillez saisir un commentaire')
         }
     }
 
     const handleExport = () => {
-        const header = ["Voie", "Plo+Abs",  "Commentaire", "Latitude", "Longitude", "Date du commentaire"];
+        const header = ["Voie", "Plo+Abs", "Commentaire", "Latitude", "Longitude", "Date du commentaire"];
         const rows = featuresWithComments.current.map(item => {
             let feature = item.feature;
             const latLng = item.coords
             return [
-            feature.properties.voie_designation || "",
-            feature.properties.ploabscissedebut && feature.properties.ploabscissefin ? `Du PR ${feature.properties.ploabscissedebut} au PR ${feature.properties.ploabscissefin}` : "",
-            item.commentaire || "",
-            latLng.lat,
-            latLng.lng,
-            new Date().toLocaleDateString()
-        ]});
+                feature.properties.voie_designation || "",
+                feature.properties.ploabscissedebut && feature.properties.ploabscissefin ? `Du PR ${feature.properties.ploabscissedebut} au PR ${feature.properties.ploabscissefin}` : "",
+                item.commentaire || "",
+                latLng.lat,
+                latLng.lng,
+                new Date().toLocaleDateString()
+            ]
+        });
         const csvContent = [header, ...rows].map(e => e.join(";")).join("\n");
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         saveAs(blob, "commentaires.csv");
@@ -382,20 +388,20 @@ function CoucheRoulementComponent() {
                             <Popup>Vous êtes ici</Popup>
                         </Marker>)}
                         {couche && couche[0] && (
-                                <GeoJSON
-                                    data={couche[0].features.filter((feature) => {
-                                        return feature.geometry && feature.geometry.type === "MultiLineString";
-                                    })}
-                                    style={getFeatureStyle}
-                                    onEachFeature={(feature, layer) => {
-                                        layer.on({
-                                            click: (e) => {
-                                                handleFeatureClick(e,feature, mapRef.current);
-                                            },
-                                        });
-                                    }}
-                                />
-                            )
+                            <GeoJSON
+                                data={couche[0].features.filter((feature) => {
+                                    return feature.geometry && feature.geometry.type === "MultiLineString";
+                                })}
+                                style={getFeatureStyle}
+                                onEachFeature={(feature, layer) => {
+                                    layer.on({
+                                        click: (e) => {
+                                            handleFeatureClick(e, feature, mapRef.current);
+                                        },
+                                    });
+                                }}
+                            />
+                        )
                         }
                         <Legend arrondissements={geojson} />
                         <ZoomControl position="topright" />
