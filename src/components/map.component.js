@@ -32,7 +32,9 @@ function MapComponent() {
     const [gazShown, setGazShown] = useState(true);
     const [assainissementShown, setAssainissementShown] = useState(true);
     const [zoom, setZoom] = useState(9);
-    
+    const firstRender = useRef(false);
+
+
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
@@ -101,11 +103,15 @@ function MapComponent() {
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
             });
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            console.log("Geolocation is not supported by this browser");
-        }
+            if (navigator.geolocation) {
+                const watchId = navigator.geolocation.watchPosition(success, error);
+    
+                return () => {
+                    navigator.geolocation.clearWatch(watchId);
+                };
+            } else {
+                console.log("Geolocation is not supported by this browser");
+            }
     }, []);
 
     const handleSearch = (e) => {
@@ -218,7 +224,7 @@ function MapComponent() {
             });
         }
     };
-    
+
 
     const handleFeatureClick = (feature, map) => {
         if (feature.properties) {
@@ -304,8 +310,11 @@ function MapComponent() {
         const longitude = position.coords.longitude;
         setLocation([latitude, longitude]);
         setGeolocDetect(true);
-        setZoom(12);
-        mapRef.current.setView([latitude, longitude], 12);
+        if(!firstRender.current){
+            setZoom(12);
+            mapRef.current.setView([latitude, longitude], 12);
+            firstRender.current = true;
+        }
     }
 
     const error = () => {
@@ -395,6 +404,10 @@ function MapComponent() {
 
     };
 
+    const handleCenterLocation = () => {
+        mapRef.current.setView(location, 12);
+    }
+
     return (
         <div className='container-fluid'>
             <div className='row' id="navbar">
@@ -412,6 +425,9 @@ function MapComponent() {
             <div className="row">
                 <FilterComponent onFilterChange={handleFilterChange} isOpen={isNavOpen} />
                 <div className={isNavOpen ? 'col-6' : 'col-12'}>
+                    {geolocDetect && (
+                        <button onClick={handleCenterLocation} className="button-location">Centrer sur ma position</button>
+                    )}
                     <MapContainer
                         className="markercluster-map"
                         center={location}
@@ -494,47 +510,47 @@ function MapComponent() {
                             />
                         )}
                         {restrictionShown && restrictions && restrictions[0] && restrictions.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                                if (feature.geometry.coordinates[0][lengthCoord]) {
-                                    return (
-                                        <Marker
-                                            key={index}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={L.divIcon({
-                                                className: 'custom-icon',
-                                                html: `<img src="./images/AK14.png" class="icone"/>`,
-                                            })}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleFeatureClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                }else{
-                                    return (
-                                        <Marker
-                                            key={index}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={L.divIcon({
-                                                className: 'custom-icon',
-                                                html: `<img src="./images/AK14.png" class="icone"/>`,
-                                            })}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleFeatureClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                }
-                            })}
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            if (feature.geometry.coordinates[0][lengthCoord]) {
+                                return (
+                                    <Marker
+                                        key={index}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={L.divIcon({
+                                            className: 'custom-icon',
+                                            html: `<img src="./images/AK14.png" class="icone"/>`,
+                                        })}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleFeatureClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <Marker
+                                        key={index}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={L.divIcon({
+                                            className: 'custom-icon',
+                                            html: `<img src="./images/AK14.png" class="icone"/>`,
+                                        })}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleFeatureClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            }
+                        })}
                         {interruptionShown && interruptions && interruptions[0] && (
                             <GeoJSON
                                 key={1}
@@ -556,260 +572,260 @@ function MapComponent() {
                             />
                         )}
                         {interruptionShown && interruptions && interruptions[0] && interruptions.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                                if (feature.geometry.coordinates[0][lengthCoord]) {
-                                    return (
-                                        <Marker
-                                            key={index}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={L.divIcon({
-                                                className: 'custom-icon',
-                                                html: `<img src="./images/B1.png" class="icone"/>`,
-                                            })}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleFeatureClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                }else{
-                                    return (
-                                        <Marker
-                                            key={index}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={L.divIcon({
-                                                className: 'custom-icon',
-                                                html: `<img src="./images/B1.png" class="icone"/>`,
-                                            })}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleFeatureClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                }
-                            })}
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            if (feature.geometry.coordinates[0][lengthCoord]) {
+                                return (
+                                    <Marker
+                                        key={index}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={L.divIcon({
+                                            className: 'custom-icon',
+                                            html: `<img src="./images/B1.png" class="icone"/>`,
+                                        })}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleFeatureClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <Marker
+                                        key={index}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={L.divIcon({
+                                            className: 'custom-icon',
+                                            html: `<img src="./images/B1.png" class="icone"/>`,
+                                        })}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleFeatureClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            }
+                        })}
                         {telecomShown && telecom && telecom[0] && telecom.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                                let markerIcon = L.divIcon({
-                                    className: 'custom-icon',
-                                    html: `<i class="fa-solid fa-phone" style="color:green"></i>`,
-                                });
-                                if (feature.geometry.type === "MultiLineString") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else if (feature.geometry.type === "Point") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            let markerIcon = L.divIcon({
+                                className: 'custom-icon',
+                                html: `<i class="fa-solid fa-phone" style="color:green"></i>`,
+                            });
+                            if (feature.geometry.type === "MultiLineString") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else if (feature.geometry.type === "Point") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
                         {eauShown && eau && eau[0] && eau.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
-                                let markerIcon = L.divIcon({
-                                    className: 'custom-icon',
-                                    html: `<i class="fa-solid fa-droplet" style="color:blue"></i>`,
-                                });
-                                if (feature.geometry.type === "MultiLineString") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else if (feature.geometry.type === "Point") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            let markerIcon = L.divIcon({
+                                className: 'custom-icon',
+                                html: `<i class="fa-solid fa-droplet" style="color:blue"></i>`,
+                            });
+                            if (feature.geometry.type === "MultiLineString") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else if (feature.geometry.type === "Point") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
                         {elecShown && elec && elec[0] && elec.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
-                                let markerIcon = L.divIcon({
-                                    className: 'custom-icon',
-                                    html: `<i class="fa-solid fa-bolt" style="color:red"></i>`,
-                                });
-                                if (feature.geometry.type === "MultiLineString") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else if (feature.geometry.type === "Point") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            let markerIcon = L.divIcon({
+                                className: 'custom-icon',
+                                html: `<i class="fa-solid fa-bolt" style="color:red"></i>`,
+                            });
+                            if (feature.geometry.type === "MultiLineString") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else if (feature.geometry.type === "Point") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
                         {assainissementShown && assainissement && assainissement[0] && assainissement.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
-                                let markerIcon = L.divIcon({
-                                    className: 'custom-icon',
-                                    html: `<i class="fa-solid fa-droplet" style="color:brown"></i>`,
-                                });
-                                if (feature.geometry.type === "MultiLineString") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else if (feature.geometry.type === "Point") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            let markerIcon = L.divIcon({
+                                className: 'custom-icon',
+                                html: `<i class="fa-solid fa-droplet" style="color:brown"></i>`,
+                            });
+                            if (feature.geometry.type === "MultiLineString") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else if (feature.geometry.type === "Point") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
                         {gazShown && gaz && gaz[0] && gaz.map((feature, index) => {
-                                var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
+                            var lengthCoord = parseInt(feature.geometry.coordinates[0].length / 2)
 
-                                let markerIcon = L.divIcon({
-                                    className: 'custom-icon',
-                                    html: `<i class="fa-solid fa-fire-flame-curved" style="color:yellow"></i>`,
-                                });
-                                if (feature.geometry.type === "MultiLineString") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[0][lengthCoord][1],
-                                                feature.geometry.coordinates[0][lengthCoord][0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else if (feature.geometry.type === "Point") {
-                                    return (
-                                        <Marker
-                                            key={feature.properties.gdp_atp_numero_arrete}
-                                            position={[
-                                                feature.geometry.coordinates[1],
-                                                feature.geometry.coordinates[0],
-                                            ]}
-                                            icon={markerIcon}
-                                            eventHandlers={{
-                                                click: (e) => {
-                                                    handleAtpClick(feature, mapRef.current)
-                                                },
-                                            }}
-                                        />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            let markerIcon = L.divIcon({
+                                className: 'custom-icon',
+                                html: `<i class="fa-solid fa-fire-flame-curved" style="color:yellow"></i>`,
+                            });
+                            if (feature.geometry.type === "MultiLineString") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[0][lengthCoord][1],
+                                            feature.geometry.coordinates[0][lengthCoord][0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else if (feature.geometry.type === "Point") {
+                                return (
+                                    <Marker
+                                        key={feature.properties.gdp_atp_numero_arrete}
+                                        position={[
+                                            feature.geometry.coordinates[1],
+                                            feature.geometry.coordinates[0],
+                                        ]}
+                                        icon={markerIcon}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                handleAtpClick(feature, mapRef.current)
+                                            },
+                                        }}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
                         <Legend arrondissements={geojson} />
                         <ZoomControl position="topright" />
                         <TileLayer

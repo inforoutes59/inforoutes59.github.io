@@ -163,3 +163,18 @@ button[type="submit"]:hover {
   margin-right: 10px;
   margin-left: 10px;
 }
+
+.button-location{
+  position:absolute;
+  padding: 10px;
+  font-size: 0.8rem;
+  z-index: 999999;
+  background-color: #007bff; /* Couleur de fond bleue */
+  color: #fff; /* Couleur du texte blanc */
+  border: none; /* Pas de bordure */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur de type pointer */
+  transition: background-color 0.3s ease; /* Transition de couleur de fond */
+  width: fit-content;
+  height: fit-content;
+}

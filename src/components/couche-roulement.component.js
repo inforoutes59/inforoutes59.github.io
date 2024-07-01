@@ -23,6 +23,7 @@ function CoucheRoulementComponent() {
     const selectedFeatureRef = useRef(null);
     const [isFeatureClicked, setIsFeatureClicked] = useState(false);
     const coordinatesRef = useRef(null);
+    const firstRender = useRef(false);
 
 
     function formatDate(inputDate) {
@@ -292,7 +293,11 @@ function CoucheRoulementComponent() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setLocation([latitude, longitude]);
-        setGeolocDetect(true)
+        setGeolocDetect(true);
+        if(!firstRender.current){
+            mapRef.current.setView([latitude, longitude], 12);
+            firstRender.current = true;
+        }
     }
 
     const error = () => {
@@ -327,6 +332,10 @@ function CoucheRoulementComponent() {
         };
     };
 
+    const handleCenterLocation = () => {
+        mapRef.current.setView(location, 12);
+    }
+
 
     return (
         <div className='container-fluid'>
@@ -344,11 +353,14 @@ function CoucheRoulementComponent() {
             </div>)}
             <div className="row">
                 <div className={'col-12'}>
-                    <MapContainer
+                    {geolocDetect && (
+                        <button onClick={handleCenterLocation} className="button-location">Centrer sur ma position</button>
+                    )}                    <MapContainer
                         center={location}
                         zoom={9}
                         maxZoom={18}
                         ref={mapRef}
+                        zoomControl={false}
                     >
                         {geojson.features.map((feature, index) => {
                             let colorArrondissement = '#eb3434';
