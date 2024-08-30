@@ -103,15 +103,15 @@ function MapComponent() {
             .catch((error) => {
                 console.error('Erreur lors de la récupération des données GeoJSON :', error);
             });
-            if (navigator.geolocation) {
-                const watchId = navigator.geolocation.watchPosition(success, error);
-    
-                return () => {
-                    navigator.geolocation.clearWatch(watchId);
-                };
-            } else {
-                console.log("Geolocation is not supported by this browser");
-            }
+        if (navigator.geolocation) {
+            const watchId = navigator.geolocation.watchPosition(success, error);
+
+            return () => {
+                navigator.geolocation.clearWatch(watchId);
+            };
+        } else {
+            console.log("Geolocation is not supported by this browser");
+        }
     }, []);
 
     const handleSearch = (e) => {
@@ -131,8 +131,13 @@ function MapComponent() {
             let searchNum = searchValue;
             if (/[a-zA-Z]/.test(searchValue)) {
                 searchNum = searchValue.replace('RD', '');
-                if(/^D/.test(searchNum))
-                {
+                searchNum = searchNum.replace('Rd', '');
+                searchNum = searchNum.replace('rd', '');
+                searchNum = searchNum.replace('rD', '');
+                if (/^D/.test(searchNum)) {
+                    searchNum = searchNum.substring(1);
+                }
+                if (/^d/.test(searchNum)) {
                     searchNum = searchNum.substring(1);
                 }
                 console.log(searchNum);
@@ -154,7 +159,7 @@ function MapComponent() {
                     if (searchLetter.toLowerCase() === 'g') {
                         searchLetter = ` ${searchLetter}`;
                     }
-                }else if(searchNum.match(/(\d+)([A-Za-z]+\d*)$/)){
+                } else if (searchNum.match(/(\d+)([A-Za-z]+\d*)$/)) {
                     match = searchNum.match(/(\d+)([A-Za-z]+\d*)$/);
                     console.log(match)
                     searchNum = match[1];
@@ -318,7 +323,7 @@ function MapComponent() {
         const longitude = position.coords.longitude;
         setLocation([latitude, longitude]);
         setGeolocDetect(true);
-        if(!firstRender.current){
+        if (!firstRender.current) {
             setZoom(12);
             mapRef.current.setView([latitude, longitude], 12);
             firstRender.current = true;

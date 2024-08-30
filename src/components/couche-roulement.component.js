@@ -78,8 +78,13 @@ function CoucheRoulementComponent() {
             let searchNum = searchValue;
             if (/[a-zA-Z]/.test(searchValue)) {
                 searchNum = searchValue.replace('RD', '');
-                if(/^D/.test(searchNum))
-                {
+                searchNum = searchNum.replace('Rd', '');
+                searchNum = searchNum.replace('rd', '');
+                searchNum = searchNum.replace('rD', '');
+                if (/^D/.test(searchNum)) {
+                    searchNum = searchNum.substring(1);
+                }
+                if (/^d/.test(searchNum)) {
                     searchNum = searchNum.substring(1);
                 }
                 console.log(searchNum);
@@ -101,6 +106,11 @@ function CoucheRoulementComponent() {
                     if (searchLetter.toLowerCase() === 'g') {
                         searchLetter = ` ${searchLetter}`;
                     }
+                } else if (searchNum.match(/(\d+)([A-Za-z]+\d*)$/)) {
+                    match = searchNum.match(/(\d+)([A-Za-z]+\d*)$/);
+                    console.log(match)
+                    searchNum = match[1];
+                    searchLetter = match[2];
                 }
             }
             if (searchNum.length < 4) {
