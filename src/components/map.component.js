@@ -120,43 +120,46 @@ function MapComponent() {
             mapRef.current.removeLayer(highlightedDeviationLayer);
             highlightedDeviationLayer = null;
         }
-        const searchValue = document.querySelector('#search-input').value;
+        let searchValue = document.querySelector('#search-input').value;
         const regexNumber = /\d/;
+        let searchPoint = '';
+        let searchLetter = '';
         if (regexNumber.test(searchValue)) {
+            if (searchValue.includes(' ')) {
+                searchValue = searchValue.replaceAll(' ', '');
+            }
             let searchNum = searchValue;
-            if (searchNum.length < 4 && !searchValue.includes('.') && !searchValue.includes(' ') && !searchValue.includes('G')) {
-                searchNum = searchValue.replace(/\D/g, '');
-                searchNum = searchNum.padStart(4, '0');
-            } else {
-                if (searchValue.includes('.')) {
-                    searchNum = searchValue.replace(/A-Za-z/g, '');
-                    searchNum = searchValue.split('.')[0];
-                    if (searchNum.length < 4) {
-                        searchNum = searchNum.padStart(4, '0');
+            if (/[a-zA-Z]/.test(searchValue)) {
+                searchNum = searchValue.replace('RD', '');
+                if(/^D/.test(searchNum))
+                {
+                    searchNum = searchNum.substring(1);
+                }
+                console.log(searchNum);
+            }
+            if (searchValue.includes('.')) {
+                if (searchValue.split('.')[1].length < 2) {
+                    searchPoint = `.${searchValue.split('.')[1].padStart(2, '0')}`
+                } else {
+                    searchPoint = `.${searchValue.split('.')[1]}`
+                }
+                searchNum = searchValue.split('.')[0];
+            }
+            if (/[a-zA-Z]/.test(searchNum)) {
+                let match = searchNum.match(/(.*?)([A-Za-z]+)$/);
+
+                if (match) {
+                    searchNum = match[1];
+                    searchLetter = match[2];
+                    if (searchLetter.toLowerCase() === 'g') {
+                        searchLetter = ` ${searchLetter}`;
                     }
-                    if (searchValue.split('.')[1].length < 2) {
-                        searchNum = `${searchNum}.${searchValue.split('.')[1].padStart(2, '0')}`
-                    } else {
-                        searchNum = `${searchNum}.${searchValue.split('.')[1]}`
-                    }
-                } else if (searchValue.includes(' ')) {
-                    searchNum = searchValue.replace(/A-Za-z/g, '');
-                    searchNum = searchValue.split(' ')[0];
-                    if (searchNum.length < 4) {
-                        searchNum = searchNum.padStart(4, '0');
-                    }
-                    searchNum = `${searchNum} ${searchValue.split(' ')[1]}`
-                } else if (searchValue.includes('G')) {
-                    searchNum = searchValue.replace('RD', '');
-                    searchNum = searchValue.split('G')[0];
-                    console.log(searchNum);
-                    if (searchNum.length < 4) {
-                        searchNum = searchNum.padStart(4, '0');
-                    }
-                    searchNum = `${searchNum} G`
                 }
             }
-            searchNum = `RD${searchNum}`
+            if (searchNum.length < 4) {
+                searchNum = searchNum.padStart(4, '0');
+            }
+            searchNum = `RD${searchNum}${searchLetter}${searchPoint}`;
             rdData.features.forEach((feature) => {
                 if (feature.properties.designation.toLowerCase() === searchNum.toLowerCase()) {
                     const bounds = L.geoJSON(feature).getBounds();
