@@ -154,6 +154,11 @@ function MapComponent() {
                     if (searchLetter.toLowerCase() === 'g') {
                         searchLetter = ` ${searchLetter}`;
                     }
+                }else if(searchNum.match(/(\d+)([A-Za-z]+\d*)$/)){
+                    match = searchNum.match(/(\d+)([A-Za-z]+\d*)$/);
+                    console.log(match)
+                    searchNum = match[1];
+                    searchLetter = match[2];
                 }
             }
             if (searchNum.length < 4) {
