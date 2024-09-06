@@ -99,16 +99,14 @@ function CoucheRoulementComponent() {
             }
             if (/[a-zA-Z]/.test(searchNum)) {
                 let match = searchNum.match(/(.*?)([A-Za-z]+)$/);
-
                 if (match) {
                     searchNum = match[1];
                     searchLetter = match[2];
-                    if (searchLetter.toLowerCase() === 'g') {
+                    if (searchLetter.toLowerCase() === 'g' && searchNum !== '11' && searchNum !== '011' && searchNum !== '0011') {
                         searchLetter = ` ${searchLetter}`;
                     }
                 } else if (searchNum.match(/(\d+)([A-Za-z]+\d*)$/)) {
                     match = searchNum.match(/(\d+)([A-Za-z]+\d*)$/);
-                    console.log(match)
                     searchNum = match[1];
                     searchLetter = match[2];
                 }
